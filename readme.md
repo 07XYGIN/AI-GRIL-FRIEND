@@ -9,10 +9,7 @@
 ![LangChain](https://img.shields.io/badge/LangChain-1.0+-1C3C3C?logo=langchain&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.127+-009688?logo=fastapi&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16+-336791?logo=postgresql&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-green.svg)
-![FastAPI](https://img.shields.io/badge/FastAPI-0.x-009688?logo=fastapi&logoColor=white&style=for-the-badge)
 
-一个具备**长期记忆**和**情感认知**的智能虚拟伴侣，使用现代AI技术栈构建。
 
 
 </div>
