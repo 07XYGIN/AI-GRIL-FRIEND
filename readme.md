@@ -2,13 +2,13 @@
 
 <div align="center">
   
-![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python&logoColor=white)
-![uv](https://img.shields.io/badge/uv-0.9+-blue?logo=uv&logoColor=white)
-![Vue.js](https://img.shields.io/badge/Vue.js-3.x-4FC08D?logo=vuedotjs&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript&logoColor=white)
-![LangChain](https://img.shields.io/badge/LangChain-1.0+-1C3C3C?logo=langchain&logoColor=white)
-![FastAPI](https://img.shields.io/badge/FastAPI-0.127+-009688?logo=fastapi&logoColor=white)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16+-336791?logo=postgresql&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python)
+![uv](https://img.shields.io/badge/uv-0.9+-blue?logo=uv)
+![Vue.js](https://img.shields.io/badge/Vue.js-3.x-4FC08D?logo=vuedotjs)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript)
+![LangChain](https://img.shields.io/badge/LangChain-1.0+-1C3C3C?logo=langchain)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.127+-009688?logo=fastapi)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16+-336791?logo=postgresql)
 
 
 
