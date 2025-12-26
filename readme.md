@@ -40,7 +40,6 @@ graph TB
     subgraph "数据层"
         PG[(PostgreSQL)]
         VEC[向量数据库<br/>记忆存储]
-        CACHE[Redis缓存<br/>TTL管理]
     end
     
     V -->|HTTP/WebSocket| F
@@ -48,6 +47,5 @@ graph TB
     LC --> M
     M --> PG
     M --> VEC
-    M --> CACHE
     F --> PG
 ```
