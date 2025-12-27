@@ -11,5 +11,5 @@ dependencies = [
     "langchain>=1.2.0",
     "langchain-ollama>=1.0.1",
     "sqlalchemy>=2.0.45",
-    "uvicorn>=0.40.0",
+    "uvicorn[standard]>=0.40.0",
 ]
