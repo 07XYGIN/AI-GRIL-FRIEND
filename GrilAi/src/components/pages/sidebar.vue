@@ -30,7 +30,6 @@ import Theme from './theme.vue';
                             </div>
                             <div class=" flex flex-1 text-left text-sm leading-tight justify-between items-center">
                                 <span class="truncate font-semibold">Gin friend</span>
-                                <Theme />
                             </div>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -60,12 +59,13 @@ import Theme from './theme.vue';
             <SidebarRail />
         </Sidebar>
         <SidebarInset>
-            <header class="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear">
+            <header class="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear sticky top-0 bg-background z-10 ">
                 <div class="flex items-center gap-2 px-4">
                     <SidebarTrigger class="-ml-1" />
+                    <Theme />
                 </div>
             </header>
-            <main class="p-3 h-full">
+            <main class="">
                 <router-view></router-view>
             </main>
         </SidebarInset>
