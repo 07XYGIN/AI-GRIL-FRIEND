@@ -1,11 +1,11 @@
 <template>
-  <div>
-    <Sidebar />
-  </div>
+    <div>
+        Memory
+    </div>
 </template>
 
 <script setup lang="ts">
-  import Sidebar from '@/components/pages/sidebar.vue'
+
 </script>
 
 <style lang="scss" scoped>
