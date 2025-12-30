@@ -1,6 +1,6 @@
 <template>
-    <div class="w-full h-full flex flex-col justify-between px-16 relative">
-        <div class="">
+    <div class="w-full h-full flex flex-col justify-between px-16">
+        <div ref="messagesContainer">
             <div v-for="(item, index) in response.data" :key="index" class="p-2"
                 :class="item.role === 'user' ? 'text-right' : 'text-left'">
                 <div
@@ -8,10 +8,10 @@
                     {{ item.content }}
                 </div>
             </div>
-            <div class="bg-black w-7xl fixed bottom-0">
+            <div class="bg-black sticky bottom-0">
                 <div class="grid gap-6">
                     <InputGroup>
-                        <InputGroupTextarea placeholder="输入内容开始聊天......" v-model="msg" />
+                        <InputGroupTextarea placeholder="输入内容开始聊天......" v-model="msg" @keydown.enter.prevent="send"/>
                         <InputGroupAddon align="block-end">
                             <InputGroupButton variant="outline" class="rounded-full" size="icon-xs">
                                 <PlusIcon class="size-4" />
@@ -62,12 +62,176 @@ const response = ref({
             role: "user",
             content: "I'm fine, thank you! How can I assist you today?"
         },
-        
+         {
+            role: "user",
+            content: "Hello, how are you?"
+        },
+        {
+            role: "assistant",
+            content: "I'm fine, thank you! How can I assist you today?"
+        },
+        {
+            role: "user",
+            content: "I'm fine, thank you! How can I assist you today?"
+        }, {
+            role: "user",
+            content: "Hello, how are you?"
+        },
+        {
+            role: "assistant",
+            content: "I'm fine, thank you! How can I assist you today?"
+        },
+        {
+            role: "user",
+            content: "I'm fine, thank you! How can I assist you today?"
+        }, {
+            role: "user",
+            content: "Hello, how are you?"
+        },
+        {
+            role: "assistant",
+            content: "I'm fine, thank you! How can I assist you today?"
+        },
+        {
+            role: "user",
+            content: "I'm fine, thank you! How can I assist you today?"
+        }, {
+            role: "user",
+            content: "Hello, how are you?"
+        },
+        {
+            role: "assistant",
+            content: "I'm fine, thank you! How can I assist you today?"
+        },
+        {
+            role: "user",
+            content: "I'm fine, thank you! How can I assist you today?"
+        }, {
+            role: "user",
+            content: "Hello, how are you?"
+        },
+        {
+            role: "assistant",
+            content: "I'm fine, thank you! How can I assist you today?"
+        },
+        {
+            role: "user",
+            content: "I'm fine, thank you! How can I assist you today?"
+        }, {
+            role: "user",
+            content: "Hello, how are you?"
+        },
+        {
+            role: "assistant",
+            content: "I'm fine, thank you! How can I assist you today?"
+        },
+        {
+            role: "user",
+            content: "I'm fine, thank you! How can I assist you today?"
+        }, {
+            role: "user",
+            content: "Hello, how are you?"
+        },
+        {
+            role: "assistant",
+            content: "I'm fine, thank you! How can I assist you today?"
+        },
+        {
+            role: "user",
+            content: "I'm fine, thank you! How can I assist you today?"
+        }, {
+            role: "user",
+            content: "Hello, how are you?"
+        },
+        {
+            role: "assistant",
+            content: "I'm fine, thank you! How can I assist you today?"
+        },
+        {
+            role: "user",
+            content: "I'm fine, thank you! How can I assist you today?"
+        }, {
+            role: "user",
+            content: "Hello, how are you?"
+        },
+        {
+            role: "assistant",
+            content: "I'm fine, thank you! How can I assist you today?"
+        },
+        {
+            role: "user",
+            content: "I'm fine, thank you! How can I assist you today?"
+        }, {
+            role: "user",
+            content: "Hello, how are you?"
+        },
+        {
+            role: "assistant",
+            content: "I'm fine, thank you! How can I assist you today?"
+        },
+        {
+            role: "user",
+            content: "I'm fine, thank you! How can I assist you today?"
+        }, {
+            role: "user",
+            content: "Hello, how are you?"
+        },
+        {
+            role: "assistant",
+            content: "I'm fine, thank you! How can I assist you today?"
+        },
+        {
+            role: "user",
+            content: "I'm fine, thank you! How can I assist you today?"
+        }, {
+            role: "user",
+            content: "Hello, how are you?"
+        },
+        {
+            role: "assistant",
+            content: "I'm fine, thank you! How can I assist you today?"
+        },
+        {
+            role: "user",
+            content: "I'm fine, thank you! How can I assist you today?"
+        }, {
+            role: "user",
+            content: "Hello, how are you?"
+        },
+        {
+            role: "assistant",
+            content: "I'm fine, thank you! How can I assist you today?"
+        },
+        {
+            role: "user",
+            content: "I'm fine, thank you! How can I assist you today?"
+        }, {
+            role: "user",
+            content: "Hello, how are you?"
+        },
+        {
+            role: "assistant",
+            content: "I'm fine, thank you! How can I assist you today?"
+        },
+        {
+            role: "user",
+            content: "I'm fine, thank you! How can I assist you today?"
+        }, {
+            role: "user",
+            content: "Hello, how are you?"
+        },
+        {
+            role: "assistant",
+            content: "I'm fine, thank you! How can I assist you today?"
+        },
+        {
+            role: "user",
+            content: "I'm fine, thank you! How can I assist you today?"
+        },
     ]
 })
-
 const send = () => {
-    if (!msg.value) return
+    if(!msg.value) return
     response.value.data.push({
         role: "user",
         content: msg.value
