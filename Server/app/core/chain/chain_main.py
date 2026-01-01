@@ -1,9 +1,16 @@
+from langchain_openai import ChatOpenAI
 from langchain.agents import create_agent
-
-from app.core.llm_config import models
-
-
+import os
+from dotenv import load_dotenv
+from .prompt import SYSTEM_PROMPT
+load_dotenv()
+llm = ChatOpenAI(
+    model="qwen-plus",
+    openai_api_key=os.getenv("DASHSCOPE_API_KEY"),
+    openai_api_base="https://dashscope.aliyuncs.com/compatible-mode/v1",
+    temperature=1.9,
+)
 agent = create_agent(
-    model=models,
-    system_prompt='你是一个有用的助手',
+    model=llm,
+    system_prompt=SYSTEM_PROMPT,
 )
