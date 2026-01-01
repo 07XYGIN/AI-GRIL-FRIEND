@@ -10,6 +10,7 @@ dependencies = [
     "fastapi>=0.127.0",
     "langchain>=1.2.0",
     "langchain-ollama>=1.0.1",
+    "rich>=14.2.0",
     "sqlalchemy>=2.0.45",
     "uvicorn[standard]>=0.40.0",
 ]

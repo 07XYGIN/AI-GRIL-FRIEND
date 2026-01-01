@@ -2,12 +2,13 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from app.core.chain.chain_main import agent
+from app.routers import msg
 import uvicorn
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
 
-    print(f'程序启动成功,端口${8080}')
+    print(f'程序启动成功')
 
     yield 
 
@@ -15,15 +16,17 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 app.add_middleware(
         CORSMiddleware,
-        allow_origins=["*"],
+        allow_origins=["http://localhost:5173"],
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
+        max_age=86400
 )
+app.include_router(msg.router)
+
 if __name__ == '__main__':
     uvicorn.run(
         "main:app",
-        host="0.0.0.0",
         port=8000,
         reload=True,
     )
