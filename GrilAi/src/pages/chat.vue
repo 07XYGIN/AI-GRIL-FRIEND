@@ -26,9 +26,16 @@
                             <InputGroupText class="ml-auto">
                             </InputGroupText>
                             <Separator orientation="vertical" />
-                            <InputGroupButton variant="default" class="rounded-full" size="icon-xs" @click="send">
-                                <ArrowUpIcon class="size-4" />
-                            </InputGroupButton>
+                            <template v-if="!isSend">
+                                <InputGroupButton variant="default" class="rounded-full" size="icon-xs" @click="send">
+                                    <ArrowUpIcon class="size-4" />
+                                </InputGroupButton>
+                            </template>
+                            <template v-else>
+                                <InputGroupButton variant="default" class="rounded-full" size="icon-xs">
+                                    <Loader stroke="red" class="animate-spin size-4" />
+                                </InputGroupButton>
+                            </template>
                         </InputGroupAddon>
                     </InputGroup>
                 </div>
@@ -38,21 +45,23 @@
 </template>
 
 <script setup lang="ts">
-import { ArrowUpIcon } from 'lucide-vue-next'
+import { ArrowUpIcon,Loader } from 'lucide-vue-next'
 import { DropdownMenu} from '@/components/ui/dropdown-menu'
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupText, InputGroupTextarea } from '@/components/ui/input-group'
 import { Separator } from '@/components/ui/separator'
 import { ref } from 'vue'
 import {sendMsg} from '@/api/msg'
+
 const msg = ref<string>("")
 const msgRes = ref<Array<{role:string,content:string}>>([])
+const isSend = ref(false)
+
+
 const send = async() => {
-    msgRes.value.push({role:"user",content:msg.value})
-    const res = await sendMsg({
-        message:msg.value
-    })
-    msgRes.value.push({role:"assistant",content:res.data})
-    msg.value = ""
+    isSend.value = true
+    setTimeout(
+        ()=>isSend.value = false,3000
+    )
 }
 </script>
 

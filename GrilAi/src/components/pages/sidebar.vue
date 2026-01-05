@@ -25,10 +25,9 @@ import Theme from './theme.vue';
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg">
                             <div
-                                class="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                                <GalleryVerticalEnd class="size-4" />
+                                class="flex aspect-square size-8 items-center justify-center rounded-lg text-sidebar-primary-foreground">
                             </div>
-                            <div class=" flex flex-1 text-left text-sm leading-tight justify-between items-center">
+                            <div class="flex flex-1 text-left text-sm leading-tight justify-between items-center">
                                 <span class="truncate font-semibold">Gin friend</span>
                             </div>
                         </SidebarMenuButton>
