@@ -25,27 +25,19 @@
 
 ```mermaid
 graph TB
-    subgraph "前端层"
         V[Vue.js 3 + TypeScript]
         UI[响应式UI组件]
         WS[WebSocket实时通信]
     end
-    
-    subgraph "后端层"
         F[FastAPI服务器]
         LC[LangChain智能引擎]
         M[记忆管理系统]
     end
-    
-    subgraph "数据层"
         PG[(PostgreSQL)]
-        VEC[向量数据库<br/>记忆存储]
     end
-    
-    V -->|HTTP/WebSocket| F
+    V -->|HTTP/SSE| F
     F --> LC
     LC --> M
     M --> PG
-    M --> VEC
     F --> PG
 ```
