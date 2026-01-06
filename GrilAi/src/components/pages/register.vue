@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive, type HTMLAttributes } from "vue"
+import { reactive, ref, type HTMLAttributes } from "vue"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
@@ -24,12 +24,17 @@ const props = defineProps<{
 
 const from = reactive<loginForm>({
     userName:undefined,
-    password:undefined,
+    newPassword:undefined,
+    password:'',
     code:undefined
 })
+const isEqual = ref(false)
+const isNum = ref(false)
 const submit = async()=>{
-    const res = await login(from)
-    console.log(res);
+    const len = from.password?.length 
+    if ((isNum.value = len < 8) || (isEqual.value = from.newPassword !== from.password)) return
+    console.log(from.password?.length == 8);
+    await login(from)
 }
 </script>
 
@@ -59,8 +64,8 @@ const submit = async()=>{
                             </FieldLabel>
                             <Input id="password" type="password" placeholder="请输入密码" required v-model="from.password"/>
                             <FieldDescription>
-                                <span class="text-muted-foreground">
-                                    请输入八位以上密码(不可以纯数字)
+                                <span :class="!isNum?'text-muted-foreground':'text-destructive'">
+                                    请输入八位以上密码
                                 </span>
                             </FieldDescription>
                         </Field>
@@ -68,15 +73,18 @@ const submit = async()=>{
                             <FieldLabel for="checkout-7j9-card-name-43j">
                                 <span class="text-foreground">重复密码</span>
                             </FieldLabel>
-                            <Input id="password" type="password" placeholder="请输入密码" required v-model="from.password"/>
+                            <Input id="password" type="password" placeholder="请输入密码" required v-model="from.newPassword"/>
                             <FieldDescription>
                                 <span class="text-muted-foreground">
-                                    请输入八位以上密码(不可以纯数字)
+                                    再次输入密码
                                 </span>
+                                <p class="text-destructive my-1.5" v-if="isEqual">
+                                    两次密码输入不一致
+                                </p>
                             </FieldDescription>
                         </Field>
                         <Field>
-                            <Button @click="submit">
+                            <Button @click="submit" >
                                 注册
                             </Button>
                         </Field>
