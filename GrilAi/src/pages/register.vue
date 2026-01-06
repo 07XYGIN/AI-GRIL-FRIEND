@@ -3,7 +3,7 @@ export const description = "A login page with a muted background color."
 </script>
 
 <script setup lang="ts">
-import LoginForm from "@/components/pages/LoginForm.vue"
+import LoginForm from "@/components/pages/register.vue"
 </script>
 
 <template>

@@ -3,7 +3,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 const SidebarLayout = () => import('@/components/pages/sidebar.vue')
 const Chat   = () => import('@/pages/chat.vue')
 const Memory = () => import('@/pages/Memory.vue')
-const Login  = () => import("@/pages/login.vue")
+const register  = () => import("@/pages/register.vue")
 const routes = [
     {
         path: '/',
@@ -22,9 +22,9 @@ const routes = [
         ]
     },
     {
-        path: '/login',
-        component: Login,
-        name: 'Login',
+        path: '/register',
+        component: register,
+        name: 'register',
     }
 ]
 

@@ -1,9 +1,8 @@
-from re import A
 from pydantic import BaseModel
 from typing import List, Literal,Any
 
 
 class response_success(BaseModel):
-    code: int
-    data: dict[Any,Any]
+    code: int=200
+    data: dict[Any,Any]=None
     msg: Literal["成功"] = "成功"
