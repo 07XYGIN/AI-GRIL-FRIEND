@@ -5,13 +5,16 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "argon2-cffi>=25.1.0",
     "asyncpg>=0.31.0",
+    "bcrypt>=5.0.0",
     "dotenv>=0.9.9",
     "fastapi>=0.127.0",
     "langchain>=1.2.0",
     "langchain-ollama>=1.0.1",
     "langchain-openai>=1.1.6",
     "openai>=2.14.0",
+    "passlib[bcrypt]>=1.7.4",
     "pgvector>=0.4.2",
     "psycopg2-binary>=2.9.11",
     "rich>=14.2.0",
