@@ -6,13 +6,18 @@ const request = axios.create({
     baseURL: BaseUrl,
 });
 
-request.interceptors.request.use(function (config) {    
-    return config;
-});
+request.interceptors.request.use(
+    function (config) {    
+        return config;
+    }
+);
 
-request.interceptors.response.use(function (response) {
-    console.log(response);
-
-    return response.data;
-    });
+request.interceptors.response.use(
+    function (response) {
+        return response.data;
+    },
+    function(err){
+        console.log(err);
+    }
+);
 export default request;
