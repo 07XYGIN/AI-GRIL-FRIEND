@@ -4,6 +4,7 @@ const SidebarLayout = () => import('@/components/pages/sidebar.vue')
 const Chat   = () => import('@/pages/chat.vue')
 const Memory = () => import('@/pages/Memory.vue')
 const register  = () => import("@/pages/register.vue")
+const login  = () => import("@/pages/Login.vue")
 const routes = [
     {
         path: '/',
@@ -25,6 +26,11 @@ const routes = [
         path: '/register',
         component: register,
         name: 'register',
+    },
+    {
+        path: '/login',
+        component: login,
+        name: 'login',
     }
 ]
 

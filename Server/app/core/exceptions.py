@@ -6,6 +6,10 @@ class UnicornException(Exception):
     def __init__(self, name: str):
         self.name = name
 
+class LoginException(Exception):
+    def __init__(self, name: str):
+        self.name = name
+
 async def unicorn_exception_handler(
     request: Request,
     exc: UnicornException
@@ -26,3 +30,12 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
             "message": "不合法的参数",
         }
     )
+
+async def loginerr(request: Request,exc: LoginException):
+    return JSONResponse(
+            status_code=500,
+            content={
+                "message": f"用户名或密码错误",
+                "code": 500
+            }
+        )

@@ -16,13 +16,13 @@ import {
     FieldDescription
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import type { loginForm } from "@/api/login"
-import { login } from "@/api/login"
+import type { registerForm } from "@/api/login"
+import { register } from "@/api/login"
 const props = defineProps<{
     class?: HTMLAttributes["class"]
 }>()
 
-const from = reactive<loginForm>({
+const from = reactive<registerForm>({
     userName:undefined,
     newPassword:undefined,
     password:'',
@@ -34,7 +34,7 @@ const submit = async()=>{
     const len = from.password?.length 
     if ((isNum.value = len < 8) || (isEqual.value = from.newPassword !== from.password)) return
     console.log(from.password?.length == 8);
-    await login(from)
+    await register(from)
 }
 </script>
 

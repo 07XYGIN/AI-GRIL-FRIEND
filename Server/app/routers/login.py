@@ -1,23 +1,25 @@
 from fastapi import APIRouter,Depends
 from rich.console import Console
-from app.core.exceptions import UnicornException
+from app.core.exceptions import UnicornException,loginerr,LoginException
 from app.schemas.response import response_success
-from app.schemas.request import login_from
-from app.utils.verify import get_password_hash
+from app.schemas.request import login_from,register_from
+from app.utils.verify import get_password_hash,verify_password
 from app.core.database import get_db
 from app.model.User import User
+from app.model.code import BetaCode
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.exc import IntegrityError
 from sqlalchemy import select
-from fastapi import HTTPException
 console = Console()
 
 router = APIRouter(
     prefix='/api'
 )
 
+
+
+
 @router.post('/register',response_model=response_success)
-async def register(login:login_from,db: AsyncSession = Depends(get_db)):
+async def register(login:register_from,db: AsyncSession = Depends(get_db)):
     user = select(User.user_name).where(User.user_name == login.userName)
     result = await db.execute(user)
     isUser = result.scalar_one_or_none()
@@ -33,3 +35,24 @@ async def register(login:login_from,db: AsyncSession = Depends(get_db)):
     await db.commit()
     await db.refresh(register_from)
     return response_success
+
+
+@router.post('/login',response_model=response_success)
+async def login(login:login_from,db: AsyncSession = Depends(get_db)):
+    user = (
+        select(User.psd, BetaCode.code)
+        .join(BetaCode, User.id == BetaCode.user_by_id, isouter=True)
+        .where(User.user_name == login.userName)
+    )
+    result = await db.execute(user)
+    row = result.one_or_none()
+    print(row)
+    if row is None:
+        raise LoginException("用户不存在")
+    # 解包元组
+    base_psd, code_info = row
+    if not verify_password(login.password, base_psd):
+        raise LoginException("密码错误")
+    if code_info is None or login.code != code_info:
+        raise LoginException("邀请码错误")
+    return response_success()

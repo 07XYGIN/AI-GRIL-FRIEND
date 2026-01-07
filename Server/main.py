@@ -4,7 +4,7 @@ from fastapi.exceptions import RequestValidationError
 from contextlib import asynccontextmanager
 from app.routers import msg
 from app.routers import login
-from app.core.exceptions import unicorn_exception_handler,UnicornException,validation_exception_handler
+from app.core.exceptions import unicorn_exception_handler,UnicornException,validation_exception_handler,loginerr,LoginException
 import uvicorn
 
 @asynccontextmanager
@@ -29,6 +29,10 @@ app.include_router(login.router)
 app.add_exception_handler(
     UnicornException,
     unicorn_exception_handler
+)
+app.add_exception_handler(
+    LoginException,
+    loginerr
 )
 app.add_exception_handler(RequestValidationError, validation_exception_handler)
 if __name__ == '__main__':
