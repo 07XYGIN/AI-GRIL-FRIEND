@@ -22,11 +22,11 @@ const routes = [
             }
         ]
     },
-    {
-        path: '/register',
-        component: register,
-        name: 'register',
-    },
+    // {
+    //     path: '/register',
+    //     component: register,
+    //     name: 'register',
+    // },
     {
         path: '/login',
         component: login,

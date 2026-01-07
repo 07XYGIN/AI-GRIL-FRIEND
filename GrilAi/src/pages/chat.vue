@@ -50,7 +50,6 @@ import { DropdownMenu} from '@/components/ui/dropdown-menu'
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupText, InputGroupTextarea } from '@/components/ui/input-group'
 import { Separator } from '@/components/ui/separator'
 import { ref } from 'vue'
-import {sendMsg} from '@/api/msg'
 
 const msg = ref<string>("")
 const msgRes = ref<Array<{role:string,content:string}>>([])

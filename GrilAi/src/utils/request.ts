@@ -1,5 +1,5 @@
 import axios from 'axios'
-
+import useUserStore from '@/store/modules'; 
 const BaseUrl = "http://127.0.0.1:8000/"
 
 const request = axios.create({
@@ -8,6 +8,8 @@ const request = axios.create({
 
 request.interceptors.request.use(
     function (config) {    
+        const {getCode} = useUserStore()
+        config.headers.CODE = getCode()
         return config;
     }
 );

@@ -15,9 +15,6 @@ router = APIRouter(
     prefix='/api'
 )
 
-
-
-
 @router.post('/register',response_model=response_success)
 async def register(login:register_from,db: AsyncSession = Depends(get_db)):
     user = select(User.user_name).where(User.user_name == login.userName)
@@ -55,4 +52,5 @@ async def login(login:login_from,db: AsyncSession = Depends(get_db)):
         raise LoginException("密码错误")
     if code_info is None or login.code != code_info:
         raise LoginException("邀请码错误")
-    return response_success()
+    response_success.data = code_info
+    return response_success

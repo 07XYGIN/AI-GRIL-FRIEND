@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive, type HTMLAttributes } from "vue"
+import { reactive,type HTMLAttributes } from "vue"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
@@ -10,20 +10,22 @@ import {
 } from "@/components/ui/card"
 import {
     Field,
-    FieldDescription,
     FieldGroup,
     FieldLabel,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import type { loginForm } from "@/api/login"
 import { login } from "@/api/login"
+import useUserStore from "@/store/modules"
+const user = useUserStore()
 const from = reactive<loginForm>({
     userName: undefined,
     password: undefined,
     code: undefined
 })
 const loginSubmit = async()=>{
-    await login(from)
+    const {data} = await login(from)
+    user.setCode(data)
 }
 const props = defineProps<{
     class?: HTMLAttributes["class"]
@@ -67,10 +69,10 @@ const props = defineProps<{
                             <Button @click="loginSubmit">
                                 登录
                             </Button>
-                            <FieldDescription class="text-center">
+                            <!-- <FieldDescription class="text-center">
                                 没有账号?去
                                 <router-link to="/register">注册</router-link>
-                            </FieldDescription>
+                            </FieldDescription> -->
                         </Field>
                     </FieldGroup>
                 </form>
