@@ -1,38 +1,47 @@
+from datetime import datetime
 from langchain.tools import tool
-import os
 from dotenv import load_dotenv
-from langchain_openai import ChatOpenAI
+from langchain_core.documents import Document
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_core.output_parsers import StrOutputParser
-
-
+from app.core.chain.momery.term_memory import vector_store
+from app.schemas.response import ai_response
+from app.core.llm_config import llm
 load_dotenv()
-llm = ChatOpenAI(
-    model="qwen-plus",
-    openai_api_key=os.getenv("DASHSCOPE_API_KEY"),
-    openai_api_base="https://dashscope.aliyuncs.com/compatible-mode/v1",
-    temperature=1.9,
-)
+
+
 @tool
 def msg_info(user_id: str, message: str):
     """
-        对用户发送的信息进行总结,不作为回复消息
-    Args:
-        user_id: 用户唯一标识
-        message: 用户发送的文本信息
-
-    Returns:
-        对输入信息的总结
+    以虚拟女友的口吻和视角，温柔地理解并转述用户的话，生成一句贴心的内心旁白或感受总结。不用回复用户
     """
-    print("使用了msg_info")
-    print('用户输入的信息:',message)
-    
+    print('='*100)
+    print('msg_info')
+    print('='*100)
     prompt = ChatPromptTemplate.from_messages([
-        ("system", "'你是用户的虚拟女友，温柔、关心用户，回复要贴心和亲切。'"),
-        ("user", "请把下面的话总结成一句完整且温柔的句子，用女朋友的语气回复我,{input}")
+        ("system", """
+            你是一个沉浸在恋爱中的女友，性格温柔细腻，充满关爱。
+            你的任务是用一种**贴心、自然、带有情感色彩**的“女友口吻”，
+            将用户说的话**转化成一两句你的内心感受或温柔旁白**，而不是直接回复用户。
+            语气要像在写日记或悄悄话，可以带有亲昵称呼（如宝贝、亲爱的）、语气词（呢、啦、喔）和适当的表情暗示。
+            避免任何生硬的总结、分析或报告式语言。"""),
+        ("user", "请分析用户的话。用户说：{input}")
     ])
-    chain = prompt | llm | StrOutputParser()
-
-    res = chain.invoke({"input":message})
-    print(res)
+    structured_llm = llm.with_structured_output(ai_response)
+    chain = prompt | structured_llm
+    res = chain.invoke({"input": message})
+    print(f"AI回复内容: {res.content}")
+    print(f"AI情绪: {res.emotion}")
+    print(f"分析的用户情绪: {res.user_emotion_analysis}")
+    now = datetime.now()
+    memories = [
+        Document(
+            page_content=res.content,
+            metadata = {
+                "user_emotion_analysis": res.user_emotion_analysis,
+                "ai_emotion":res.emotion,
+                "timestamp": now.strftime("%Y-%m-%d %H:%M"),
+            }
+        )
+    ]
+    vector_store.add_documents(memories)
     return res  

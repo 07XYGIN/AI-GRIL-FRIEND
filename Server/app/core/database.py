@@ -3,6 +3,7 @@ from sqlalchemy.orm import DeclarativeBase
 from .config import HOST, USER, PORT, PASSWORD,NAME
 
 PG_DATABASE_URL = f'postgresql+asyncpg://{USER}:{PASSWORD}@{HOST}:{PORT}/{NAME}'
+SYNC_DATABASE_URL = f'postgresql://{USER}:{PASSWORD}@{HOST}:{PORT}/{NAME}'
 
 engine = create_async_engine(PG_DATABASE_URL, echo=True)
 
