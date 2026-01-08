@@ -35,7 +35,7 @@ async def loginerr(request: Request,exc: LoginException):
     return JSONResponse(
             status_code=500,
             content={
-                "message": f"用户名或密码错误",
+                "message": f"{exc.name}",
                 "code": 500
             }
         )

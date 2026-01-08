@@ -15,26 +15,33 @@ async def lifespan(app: FastAPI):
     yield 
 
     print("关闭成功")
-app = FastAPI(lifespan=lifespan)
-app.add_middleware(
+
+def create_app():
+    app = FastAPI(lifespan=lifespan)
+    app.add_middleware(
         CORSMiddleware,
         allow_origins=["http://localhost:5173"],
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
         max_age=86400
-)
-app.include_router(msg.router)
-app.include_router(login.router)
-app.add_exception_handler(
-    UnicornException,
-    unicorn_exception_handler
-)
-app.add_exception_handler(
-    LoginException,
-    loginerr
-)
-app.add_exception_handler(RequestValidationError, validation_exception_handler)
+    )
+    routers:list[any,any] = [msg.router,login.router]
+    for router in routers:
+        app.include_router(router)
+
+    exception_handlers = [
+        (UnicornException, unicorn_exception_handler),
+        (LoginException, loginerr),
+        (RequestValidationError, validation_exception_handler)
+        ]
+    for exc_type, handler in exception_handlers:
+        app.add_exception_handler(exc_type, handler)
+    return app
+
+app = create_app()
+
+
 if __name__ == '__main__':
     uvicorn.run(
         "main:app",

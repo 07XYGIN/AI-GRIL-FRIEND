@@ -8,10 +8,10 @@
                     {{ item.content }}
                 </div>
             </div>
-            <div class="bg-background sticky bottom-0">
+            <div class="bg-background sticky bottom-0 mt-4">
                 <div class="grid gap-6">
                     <InputGroup>
-                        <InputGroupTextarea placeholder="输入内容开始聊天......" v-model="msg" @keydown.enter.prevent="send"/>
+                        <InputGroupTextarea placeholder="输入内容开始聊天......" v-model="msg" @keydown.enter.prevent="send" />
                         <InputGroupAddon align="block-end">
                             <!-- <InputGroupButton variant="outline" class="rounded-full" size="icon-xs">
                                 <PlusIcon class="size-4" />
@@ -41,26 +41,34 @@
                 </div>
             </div>
         </div>
-        </div>
+    </div>
 </template>
 
 <script setup lang="ts">
-import { ArrowUpIcon,Loader } from 'lucide-vue-next'
-import { DropdownMenu} from '@/components/ui/dropdown-menu'
+import { ArrowUpIcon, Loader } from 'lucide-vue-next'
+import { DropdownMenu } from '@/components/ui/dropdown-menu'
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupText, InputGroupTextarea } from '@/components/ui/input-group'
 import { Separator } from '@/components/ui/separator'
 import { ref } from 'vue'
 
 const msg = ref<string>("")
-const msgRes = ref<Array<{role:string,content:string}>>([])
+const msgRes = ref<Array<{ role: string, content: string }>>([])
 const isSend = ref(false)
-
-
-const send = async() => {
+const wsUrl = ref('ws://localhost:8000/ws')
+const ws = ref(new WebSocket(wsUrl.value))
+const send = async () => {
     isSend.value = true
-    setTimeout(
-        ()=>isSend.value = false,3000
-    )
+    ws.value.send(msg.value)
+    ws.value.onmessage = (e: MessageEvent) => {
+        console.log(e.data);
+        msgRes.value.push(
+            { role: "user", content: msg.value },
+            { role: "ai", content: e.data },
+        )
+    isSend.value = false
+
+    }
+
 }
 </script>
 
