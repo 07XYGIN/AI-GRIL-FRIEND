@@ -1,6 +1,6 @@
 <template>
-    <div class="w-full h-full flex flex-col justify-between px-16">
-        <div ref="messagesContainer">
+    <div class="w-full h-full flex flex-col px-16 ">
+        <div class="flex-1">
             <div v-for="(item, index) in msgRes" :key="index" class="p-2"
                 :class="item.role === 'user' ? 'text-right' : 'text-left'">
                 <div
@@ -8,21 +8,13 @@
                     {{ item.content }}
                 </div>
             </div>
-            <div class="bg-background sticky bottom-0 mt-4">
+        </div>
+        <div class="bottom-0 sticky z-10">
+            <div class="bg-background mt-4 ">
                 <div class="grid gap-6">
                     <InputGroup>
                         <InputGroupTextarea placeholder="输入内容开始聊天......" v-model="msg" @keydown.enter.prevent="send" />
                         <InputGroupAddon align="block-end">
-                            <!-- <InputGroupButton variant="outline" class="rounded-full" size="icon-xs">
-                                <PlusIcon class="size-4" />
-                            </InputGroupButton> -->
-                            <DropdownMenu>
-                                <!-- <DropdownMenuTrigger as-child>
-                                    <InputGroupButton variant="ghost">
-                                        Auto
-                                    </InputGroupButton>
-                                </DropdownMenuTrigger> -->
-                            </DropdownMenu>
                             <InputGroupText class="ml-auto">
                             </InputGroupText>
                             <Separator orientation="vertical" />
@@ -41,12 +33,12 @@
                 </div>
             </div>
         </div>
+
     </div>
 </template>
 
 <script setup lang="ts">
 import { ArrowUpIcon, Loader } from 'lucide-vue-next'
-import { DropdownMenu } from '@/components/ui/dropdown-menu'
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupText, InputGroupTextarea } from '@/components/ui/input-group'
 import { Separator } from '@/components/ui/separator'
 import { ref } from 'vue'
@@ -65,10 +57,8 @@ const send = async () => {
             { role: "user", content: msg.value },
             { role: "ai", content: e.data },
         )
-    isSend.value = false
-
+        isSend.value = false
     }
-
 }
 </script>
 
