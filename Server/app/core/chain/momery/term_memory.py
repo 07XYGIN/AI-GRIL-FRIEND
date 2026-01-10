@@ -6,7 +6,7 @@ embeddings = HuggingFaceEmbeddings(
 )
 vector_store = PGVector(
     embeddings=embeddings, 
-    collection_name="xygin", 
+    collection_name="550e8400-e29b-41d4-a716-446655440000", 
     connection=SYNC_DATABASE_URL,
     use_jsonb=True,
 )

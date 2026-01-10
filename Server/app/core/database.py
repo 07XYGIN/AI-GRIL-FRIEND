@@ -4,7 +4,7 @@ from .config import HOST, USER, PORT, PASSWORD,NAME
 
 PG_DATABASE_URL = f'postgresql+asyncpg://{USER}:{PASSWORD}@{HOST}:{PORT}/{NAME}'
 SYNC_DATABASE_URL = f'postgresql://{USER}:{PASSWORD}@{HOST}:{PORT}/{NAME}'
-
+print(SYNC_DATABASE_URL)
 engine = create_async_engine(PG_DATABASE_URL, echo=True)
 
 SessionLocal = async_sessionmaker(
