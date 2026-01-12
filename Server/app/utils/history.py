@@ -2,7 +2,7 @@ from langchain_postgres import PostgresChatMessageHistory
 import psycopg
 from app.core.database import SYNC_DATABASE_URL
 sync_connection = psycopg.connect(SYNC_DATABASE_URL)
-def get_session_history(session_id: str):
+def get_session_history(session_id: str)-> PostgresChatMessageHistory:
     return PostgresChatMessageHistory(
     "chat_history", 
     session_id, 

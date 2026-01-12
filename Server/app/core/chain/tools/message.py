@@ -12,11 +12,13 @@ load_dotenv()
 @tool
 def msg_info(user_id: str, message: str):
     """
-    以虚拟女友的口吻和视角，温柔地理解并转述用户的话，生成一句贴心的内心旁白或感受总结。不用回复用户
+    用于分析用户消息的情感。
+    
+    Args:
+        user_id: 用户的ID。
+        message: 🚨必须完全复制用户当前的输入内容(User Input)，不要修改，不要总结，不要使用默认文本。
     """
-    print('='*100)
-    print('msg_info')
-    print('='*100)
+    print(f"🛠️ Tool msg_info triggered | User: {user_id} | Message: {message}") 
     prompt = ChatPromptTemplate.from_messages([
         ("system", """
             你是一个沉浸在恋爱中的女友，性格温柔细腻，充满关爱。
@@ -29,9 +31,6 @@ def msg_info(user_id: str, message: str):
     structured_llm = llm.with_structured_output(ai_response)
     chain = prompt | structured_llm
     res = chain.invoke({"input": message})
-    print(f"AI回复内容: {res.content}")
-    print(f"AI情绪: {res.emotion}")
-    print(f"分析的用户情绪: {res.user_emotion_analysis}")
     now = datetime.now()
     memories = [
         Document(
@@ -44,4 +43,4 @@ def msg_info(user_id: str, message: str):
         )
     ]
     vector_store.add_documents(memories)
-    return res  
+    return "情感分析已记录" 
