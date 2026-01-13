@@ -3,8 +3,7 @@
         <div class="flex-1">
             <div v-for="(item, index) in msgRes" :key="index" class="p-2"
                 :class="item.type === 'human' ? 'text-right' : 'text-left'">
-                <div
-                    :class="item.type === 'user' ? 'inline-block  text-foreground rounded-lg p-2' : 'inline-block  text-foreground rounded-lg p-2'">
+                <div>
                     {{ item.content }}
                 </div>
             </div>
@@ -15,20 +14,16 @@
                     <InputGroup>
                         <InputGroupTextarea placeholder="输入内容开始聊天......" v-model="msg" @keydown.enter.prevent="send" />
                         <InputGroupAddon align="block-end">
-                            <InputGroupText class="ml-auto" />
-                            <InputGroupAddon align="block-start">
-                            </InputGroupAddon>
-                            <Separator orientation="vertical" />
-                            <template v-if="!isSend">
-                                <InputGroupButton variant="default" class="rounded-full" size="icon-xs" @click="send">
+                            <InputGroupAddon align="block-start" />
+                            <InputGroupButton variant="default" class="rounded-full" size="icon-xs" @click="send">
+                                <template v-if="!isSend">
                                     <ArrowUpIcon class="size-4" />
-                                </InputGroupButton>
-                            </template>
-                            <template v-else>
-                                <InputGroupButton variant="default" class="rounded-full" size="icon-xs">
+                                </template>
+                                <template v-else>
                                     <Loader stroke="red" class="animate-spin size-4" />
-                                </InputGroupButton>
-                            </template>
+                                </template>
+                            </InputGroupButton>
+
                         </InputGroupAddon>
                     </InputGroup>
                 </div>
@@ -39,32 +34,32 @@
 
 <script setup lang="ts">
 import { ArrowUpIcon, Loader } from 'lucide-vue-next'
-import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupText, InputGroupTextarea } from '@/components/ui/input-group'
-import { Separator } from '@/components/ui/separator'
-import { ref, onMounted } from 'vue'
+import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupTextarea } from '@/components/ui/input-group'
+import { ref, onMounted, watch } from 'vue'
 import { getMsgList } from '@/api/msg'
+import useWebSocket from '@/utils/useWebSoct'
 const msg = ref<string>("")
 const msgRes = ref<Array<{ type: string, content: string }>>([])
 const isSend = ref(false)
 const wsUrl = ref('ws://localhost:8000/ws')
-const ws = ref(new WebSocket(wsUrl.value))
+
+const { sendMsg, messages } = useWebSocket(wsUrl.value)
+watch(messages, (v) => {
+    msgRes.value.push(
+        { type: "ai", content: v },
+    )
+    isSend.value = false
+})
 const send = async () => {
+    if(msg.value === '') return
+    sendMsg(msg.value)
+    msgRes.value.push({ type: "human", content: msg.value })
+    msg.value = ''
     isSend.value = true
-    ws.value.send(msg.value)
-    ws.value.onmessage = (e: MessageEvent) => {
-        console.log(e.data);
-        msgRes.value.push(
-            { type: "human", content: msg.value },
-            { type: "ai", content: e.data },
-        )
-        isSend.value = false
-        msg.value = ''
-    }
 }
 const getList = async () => {
     const { data } = await getMsgList()
     msgRes.value = data
-
 }
 onMounted(() => {
     getList()
