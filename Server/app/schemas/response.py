@@ -4,7 +4,7 @@ from typing import List, Literal,Any
 
 class response_success(BaseModel):
     code: int=200
-    data: dict[str,Any]|str=None
+    data: dict[Any,Any]|str|List[Any]=None
     msg: Literal["成功"] = "成功"
 
 

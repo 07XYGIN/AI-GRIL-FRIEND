@@ -10,12 +10,10 @@ from .tools.search_momery import search_memory_tool
 from .llm_config import llm
 from langchain_core.runnables import RunnableLambda
 from rich.console import Console
-import langchain
-langchain.debug = True
 load_dotenv()
 console = Console()
-from langchain_core.globals import set_debug
-set_debug(True)
+# from langchain_core.globals import set_debug
+# set_debug(True)
 from langchain_core.messages import HumanMessage
 def input_adapter(data: dict):
     history = data.get("history", [])
@@ -27,45 +25,42 @@ def input_adapter(data: dict):
         
     return {"messages": messages}
 agent = create_agent(
-   model=llm,
-   system_prompt=SYSTEM_PROMPT,
-   response_format=ai_response,
-   tools=[msg_info,search_memory_tool],
-   debug=True
+    model=llm,
+    system_prompt=SYSTEM_PROMPT,
+    response_format=ai_response,
+    tools=[msg_info,search_memory_tool],
 )
 def format_agent_output(agent_result):
-   print("=== 格式化函数被调用 ===")
-   console.print(f"输入: {agent_result}")
-   if 'structured_response' in agent_result:
-       structured = agent_result['structured_response']
-       if hasattr(structured, 'content'):
-           return {
-               'output': structured.content,
-               'messages': agent_result.get('messages', []),
-               'structured_response': structured
-           }
-   if 'messages' in agent_result:
-       for msg in agent_result['messages']:
-           if hasattr(msg, 'type') and msg.type == 'ai':
-               if hasattr(msg, 'tool_calls') and msg.tool_calls:
-                   for call in msg.tool_calls:
-                       if call.get('name') == 'ai_response':
-                           return {
-                               'output': call['args'].get('content', ''),
-                               'messages': agent_result['messages'],
-                               'structured_response': agent_result.get('structured_response')
-                           }
-               if hasattr(msg, 'content') and msg.content:
-                   return {
-                       'output': msg.content,
-                       'messages': agent_result['messages'],
-                       'structured_response': agent_result.get('structured_response')
-                   }
-   return {
-       'output': str(agent_result),
-       'messages': agent_result.get('messages', []),
-       'structured_response': agent_result.get('structured_response')
-   }
+    if 'structured_response' in agent_result:
+        structured = agent_result['structured_response']
+        if hasattr(structured, 'content'):
+            return {
+                'output': structured.content,
+                'messages': agent_result.get('messages', []),
+                'structured_response': structured
+            }
+    if 'messages' in agent_result:
+        for msg in agent_result['messages']:
+            if hasattr(msg, 'type') and msg.type == 'ai':
+                if hasattr(msg, 'tool_calls') and msg.tool_calls:
+                    for call in msg.tool_calls:
+                        if call.get('name') == 'ai_response':
+                            return {
+                                'output': call['args'].get('content', ''),
+                                'messages': agent_result['messages'],
+                                'structured_response': agent_result.get('structured_response')
+                            }
+                if hasattr(msg, 'content') and msg.content:
+                    return {
+                        'output': msg.content,
+                        'messages': agent_result['messages'],
+                        'structured_response': agent_result.get('structured_response')
+                    }
+    return {
+        'output': str(agent_result),
+        'messages': agent_result.get('messages', []),
+        'structured_response': agent_result.get('structured_response')
+    }
 
 agent_chain = RunnableLambda(input_adapter) | agent | RunnableLambda(format_agent_output)
 

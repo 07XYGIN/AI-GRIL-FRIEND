@@ -15,6 +15,7 @@ import {
     SidebarTrigger,
 } from '@/components/ui/sidebar'
 import Theme from './theme.vue';
+import User from '@/pages/User.vue';
 </script>
 
 <template>
@@ -29,6 +30,7 @@ import Theme from './theme.vue';
                             </div>
                             <div class="flex flex-1 text-left text-sm leading-tight justify-between items-center">
                                 <span class="truncate font-semibold">Gin friend</span>
+                                <User />
                             </div>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -58,7 +60,8 @@ import Theme from './theme.vue';
             <SidebarRail />
         </Sidebar>
         <SidebarInset>
-            <header class="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear sticky top-0 bg-background z-10 ">
+            <header
+                class="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear sticky top-0 bg-background z-10 ">
                 <div class="flex items-center gap-2 px-4">
                     <SidebarTrigger class="-ml-1" />
                     <Theme />
