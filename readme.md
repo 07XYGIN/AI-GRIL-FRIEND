@@ -21,31 +21,88 @@
 - **情感状态**：AI能够识别并记住你的情绪状态，调整回应方式
 - **TTL记忆管理**：自动清理过期/不重要的记忆，保持记忆库相关性
 
+## 快速开始
+
+### clone
+~~~bash
+git clone https://github.com/07XYGIN/AI-GRIL-FRIEND.git
+~~~
+
+### 前端
+
+~~~bash
+cd GrilAi
+
+# 安装依赖
+pnpm install  # 或 npm install / yarn install
+
+# 开发模式运行
+pnpm dev
+
+# 构建生产版本
+pnpm build
+~~~
+
+### serve
+~~~bash
+uv sync
+
+# 激活虚拟环境
+
+# Windows:
+.venv\Scripts\activate
+
+# 启动服务
+python main.py
+# 或使用 hot reload
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
+~~~
+
+
 ## 🏗️ 技术架构
 
 ```mermaid
 graph TB
-    subgraph "前端层"
-        V[Vue.js 3 + TypeScript]
-        UI[响应式UI组件]
-        WS[WebSocket实时通信]
+    subgraph "客户端层"
+        A[Web应用]
+        C[WebSocket客户端]
     end
     
-    subgraph "后端层"
-        F[FastAPI服务器]
-        LC[LangChain智能引擎]
-        M[记忆管理系统]
+    subgraph "API网关层"
+        D[FastAPI服务器]
     end
     
-    subgraph "数据层"
-        PG[(PostgreSQL)]
-        VEC[向量数据库<br/>记忆存储]
+    subgraph "业务逻辑层"
+        G[对话管理]
+        H[记忆引擎]
+        I[情感分析]
     end
     
-    V -->|HTTP/WebSocket| F
-    F --> LC
-    LC --> M
-    M --> PG
-    M --> VEC
-    F --> PG
+    subgraph "AI服务层"
+        K[LangChain智能引擎]
+        L[LLM集成]
+        M[向量化处理]
+    end
+    
+    subgraph "数据存储层"
+        N[(PostgreSQL<br/>结构化数据)]
+        O[(向量数据库<br/>记忆存储)]
+    end
+    
+    
+    A --> D
+    C --> D
+    
+    D --> G
+    G --> H
+    G --> I
+    
+    H --> K
+    I --> K
+    
+    K --> L
+    K --> M
+    
+    G --> N
+    H --> O
 ```
