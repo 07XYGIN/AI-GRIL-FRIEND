@@ -13,19 +13,24 @@ import {
     FieldGroup,
     FieldLabel,
 } from "@/components/ui/field"
+import { useRouter } from 'vue-router'
 import { Input } from "@/components/ui/input"
 import type { loginForm } from "@/api/login"
 import { login } from "@/api/login"
 import useUserStore from "@/store/modules"
 const user = useUserStore()
+const router = useRouter()
 const from = reactive<loginForm>({
     userName: undefined,
     password: undefined,
     code: undefined
 })
+
 const loginSubmit = async()=>{
     const {data} = await login(from)
     user.setCode(data)
+    router.push('/')
+
 }
 const props = defineProps<{
     class?: HTMLAttributes["class"]

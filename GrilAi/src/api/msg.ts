@@ -7,15 +7,15 @@ export const sendMsg = (msg:object)=>{
         data:msg
     })
 }
-export const getMsgList = ()=>{
+export const getMsgList = (id:string)=>{
     return request({
-        url:'/api/history/',
+        url:`/api/history/${id}`,
         method:'get',
     })
 }
-export const delMsgList = ()=>{
+export const delMsgList = (id:string)=>{
     return request({
-        url:'/api/history',
+        url:`/api/history/${id}`,
         method:'delete',
     })
 }

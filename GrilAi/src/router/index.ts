@@ -1,42 +1,64 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from "vue-router";
+import useUserStore from "@/store/modules"; // 直接导入
 
-const SidebarLayout = () => import('@/components/pages/sidebar.vue')
-const Chat   = () => import('@/pages/chat.vue')
-const Memory = () => import('@/pages/Memory.vue')
-const register  = () => import("@/pages/register.vue")
-const login  = () => import("@/pages/Login.vue")
+const SidebarLayout = () => import("@/components/pages/sidebar.vue");
+const Chat = () => import("@/pages/chat.vue");
+const Memory = () => import("@/pages/Memory.vue");
+const login = () => import("@/pages/Login.vue");
+
 const routes = [
     {
-        path: '/',
+        path: "/",
         component: SidebarLayout,
         children: [
             {
-                path: '',
+                path: "",
                 component: Chat,
-                name: 'chat',
+                name: "chat",
+                meta: { requiresAuth: true }
             },
             {
-                path: 'memory',
+                path: "memory",
                 component: Memory,
-                name: 'Memory',
-            }
-        ]
+                name: "Memory",
+                meta: { requiresAuth: true }
+            },
+        ],
     },
-    // {
-    //     path: '/register',
-    //     component: register,
-    //     name: 'register',
-    // },
     {
-        path: '/login',
+        path: "/login",
         component: login,
-        name: 'login',
-    }
-]
+        name: "login",
+        meta: { requiresAuth: false }
+    },
+];
 
 const router = createRouter({
     history: createWebHashHistory(),
     routes,
-})
+});
 
-export default router
+router.beforeEach((to, from, next) => {
+    const userStore = useUserStore();
+    if (to.name === "login") {
+        if (userStore.getCode()) {
+            next({ path: "/" });
+        } else {
+            next();
+        }
+        return;
+    }
+    
+    const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+    
+    if (requiresAuth && !userStore.getCode()) {
+        next({
+            path: "/login",
+            query: { redirect: to.fullPath }
+        });
+    } else {
+        next();
+    }
+});
+
+export default router;

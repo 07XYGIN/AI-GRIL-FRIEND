@@ -7,6 +7,7 @@ class request_msg(BaseModel):
 class register_from(BaseModel):
     userName:str
     password:str
+    code:str
 
 class login_from(BaseModel):
     userName:str

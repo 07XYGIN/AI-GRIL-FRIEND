@@ -38,10 +38,12 @@ import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupTextarea } fro
 import { ref, onMounted, watch } from 'vue'
 import { getMsgList } from '@/api/msg'
 import useWebSocket from '@/utils/useWebSoct'
+import useUserStore from '@/store/modules'
+const getUserInfo = useUserStore()
 const msg = ref<string>("")
 const msgRes = ref<Array<{ type: string, content: string }>>([])
 const isSend = ref(false)
-const wsUrl = ref('ws://localhost:8000/ws')
+const wsUrl = ref(`ws://localhost:8000/ws/${getUserInfo.userinfo.userId}`)
 
 const { sendMsg, messages } = useWebSocket(wsUrl.value)
 watch(messages, (v) => {
@@ -58,10 +60,13 @@ const send = async () => {
     isSend.value = true
 }
 const getList = async () => {
-    const { data } = await getMsgList()
-    msgRes.value = data
+    if(getUserInfo.userinfo.userId){
+        const { data } = await getMsgList(getUserInfo.userinfo.userId)
+        msgRes.value = data
+    }
 }
 onMounted(() => {
+    getUserInfo.UserInfo()
     getList()
 })
 </script>

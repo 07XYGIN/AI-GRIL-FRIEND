@@ -1,9 +1,10 @@
 from datetime import datetime
+import os
 from langchain.tools import tool
 from dotenv import load_dotenv
 from langchain_core.documents import Document
 from langchain_core.prompts import ChatPromptTemplate
-from app.core.chain.momery.term_memory import vector_store
+from app.core.chain.momery.term_memory import get_vector_store
 from app.schemas.response import ai_response
 from app.core.llm_config import llm
 load_dotenv()
@@ -19,6 +20,8 @@ def msg_info(user_id: str, message: str):
         message: 🚨必须完全复制用户当前的输入内容(User Input)，不要修改，不要总结，不要使用默认文本。
     """
     print(f"🛠️ Tool msg_info triggered | User: {user_id} | Message: {message}") 
+    user_id = os.environ.get("user_id")
+    print('当前用户id===============',user_id)
     prompt = ChatPromptTemplate.from_messages([
         ("system", """
             你是一个沉浸在恋爱中的女友，性格温柔细腻，充满关爱。
@@ -42,5 +45,6 @@ def msg_info(user_id: str, message: str):
             }
         )
     ]
+    vector_store = get_vector_store(user_id)
     vector_store.add_documents(memories)
     return "情感分析已记录" 

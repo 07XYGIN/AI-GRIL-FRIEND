@@ -26,7 +26,8 @@ async def register(login:register_from,db: AsyncSession = Depends(get_db)):
     password = get_password_hash(login.password)
     register_from =  User(
         user_name = login.userName,
-        psd=password
+        psd=password,
+        code=login.code
     )
     db.add(register_from)   
     await db.commit()
@@ -36,18 +37,20 @@ async def register(login:register_from,db: AsyncSession = Depends(get_db)):
 
 @router.post('/login',response_model=response_success)
 async def login(login:login_from,db: AsyncSession = Depends(get_db)):
+    console.log(login)
     user = (
-        select(User.psd, BetaCode.code)
-        .join(BetaCode, User.id == BetaCode.user_by_id, isouter=True)
+        select(User.psd,User.code)
         .where(User.user_name == login.userName)
     )
     result = await db.execute(user)
     row = result.one_or_none()
-    print(row)
     if row is None:
         raise LoginException("用户不存在")
     # 解包元组
+    console.log(row)
     base_psd, code_info = row
+    console.log(code_info)
+    console.log(login.code)
     if not verify_password(login.password, base_psd):
         raise LoginException("密码错误")
     if code_info is None or login.code != code_info:

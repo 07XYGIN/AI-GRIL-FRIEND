@@ -5,6 +5,7 @@ from contextlib import asynccontextmanager
 from app.routers import msg
 from app.routers import login
 from app.routers import history
+from app.routers import user
 from app.core.exceptions import unicorn_exception_handler,UnicornException,validation_exception_handler,loginerr,LoginException
 import uvicorn
 
@@ -27,7 +28,7 @@ def create_app():
         allow_headers=["*"],
         max_age=86400
     )
-    routers:list[any,any] = [msg.router,login.router,history.router]
+    routers:list[any,any] = [msg.router,login.router,history.router,user.router]
     for router in routers:
         app.include_router(router)
 

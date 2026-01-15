@@ -29,3 +29,8 @@ class User(Base):
         Date,
         server_default=text("(CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Shanghai')")
     )
+
+    code: Mapped[uuid.UUID] = mapped_column(
+        String(255),
+        nullable=False
+    )

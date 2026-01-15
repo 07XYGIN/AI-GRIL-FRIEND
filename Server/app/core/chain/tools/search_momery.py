@@ -1,11 +1,10 @@
 from langchain.tools import tool
-from langchain_core.tools import Tool
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from app.core.llm_config import llm
-from app.core.chain.momery.term_memory import vector_store
-
+from app.core.chain.momery.term_memory import get_vector_store
+import os
 @tool
 def search_memory_tool(query: str) -> str:
     """
@@ -18,11 +17,12 @@ def search_memory_tool(query: str) -> str:
         基于记忆的回复
     """
     print('='*100)
-    print('开始查找记忆')
-    
+    user_id = os.environ.get("user_id")
+    print('当前用户id===============',user_id)
+    vector_store = get_vector_store(user_id)
     # 检索记忆
+    print('开始查找记忆')
     retriever = vector_store.as_retriever(search_kwargs={"k": 5})
-    
     template_text = """
     请基于以下【回忆】来回答男朋友的话。如果回忆里没有相关信息，就自然地聊天，不要捏造事实。
 
@@ -33,7 +33,7 @@ def search_memory_tool(query: str) -> str:
     
     请以女朋友的身份回复：
     """
-    
+
     prompt = ChatPromptTemplate.from_template(template_text)
     
     def format_docs(docs):

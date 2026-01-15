@@ -1,10 +1,14 @@
+from typing import Any
 from app.core.chain.chain_main import app_with_history
 from fastapi import APIRouter,WebSocket,WebSocketDisconnect
 from rich.console import Console
+import os 
 console = Console()
 router = APIRouter()
-@router.websocket("/ws")
-async def websocket_sen_msg(websocket: WebSocket):
+@router.websocket("/ws/{userId}")
+async def websocket_sen_msg(websocket: WebSocket,userId:Any):
+    console.print(f'{userId}已经连接')
+    os.environ["user_id"] = userId
     await websocket.accept() 
     try:
         while True: 
@@ -16,7 +20,7 @@ async def websocket_sen_msg(websocket: WebSocket):
             # agent_result = app_with_history.invoke({"messages": [{"role": "user", "content": data}]})
             agent_result = app_with_history.invoke(
                 {"input": data}, 
-                config={"configurable": {"session_id": "550e8400-e29b-41d4-a716-446655440000"}}
+                config={"configurable": {"session_id": userId}}
             )
             if 'output' not in agent_result:
                 if 'structured_response' in agent_result:
@@ -28,6 +32,7 @@ async def websocket_sen_msg(websocket: WebSocket):
             promptlist = agent_result['messages']
             frontend_response = {}
             for msg in promptlist:
+                console.print(msg)
                 if hasattr(msg, "tool_calls") and msg.tool_calls:
                     for call in msg.tool_calls:
                         if call['name'] == 'ai_response':
