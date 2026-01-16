@@ -3,6 +3,8 @@ from fastapi import APIRouter
 
 from app.schemas.response import response_success
 from app.utils.history import get_session_history
+from rich.console import Console
+console = Console()
 router = APIRouter(
     prefix='/api/history'
 )
@@ -11,6 +13,7 @@ router = APIRouter(
 async def history(userId:Any):
     frontend_messages = []
     result = get_session_history(userId)
+    console.print(result)
     for msg in result.messages:
         frontend_messages.append({
             "type": msg.type,   

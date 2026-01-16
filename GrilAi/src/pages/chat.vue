@@ -65,8 +65,8 @@ const getList = async () => {
         msgRes.value = data
     }
 }
-onMounted(() => {
-    getUserInfo.UserInfo()
+onMounted(async() => {
+    await getUserInfo.UserInfo()
     getList()
 })
 </script>

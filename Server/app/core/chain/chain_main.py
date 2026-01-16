@@ -12,17 +12,19 @@ from langchain_core.runnables import RunnableLambda
 from rich.console import Console
 load_dotenv()
 console = Console()
-# from langchain_core.globals import set_debug
+from langchain_core.globals import set_debug
 # set_debug(True)
 from langchain_core.messages import HumanMessage
 def input_adapter(data: dict):
     history = data.get("history", [])
     user_input = data.get("input", "")
+    console.print(f"Debug history: {history}")
+    console.print(f"Debug user_input: {user_input}")
     
     messages = list(history)
-    if user_input:
+    if user_input and user_input.strip() :
         messages.append(HumanMessage(content=user_input))
-        
+    console.print(f"Debug Messages: {messages}")
     return {"messages": messages}
 agent = create_agent(
     model=llm,
@@ -69,4 +71,5 @@ app_with_history = RunnableWithMessageHistory(
     get_session_history,
     input_messages_key="input",
     history_messages_key="history",
+    output_messages_key="output", 
 )

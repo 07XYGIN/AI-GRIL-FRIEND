@@ -7,7 +7,6 @@ console = Console()
 router = APIRouter()
 @router.websocket("/ws/{userId}")
 async def websocket_sen_msg(websocket: WebSocket,userId:Any):
-    console.print(f'{userId}已经连接')
     os.environ["user_id"] = userId
     await websocket.accept() 
     try:
@@ -17,7 +16,6 @@ async def websocket_sen_msg(websocket: WebSocket,userId:Any):
             if data == "ping":
                 await websocket.send_text("pong")
                 continue
-            # agent_result = app_with_history.invoke({"messages": [{"role": "user", "content": data}]})
             agent_result = app_with_history.invoke(
                 {"input": data}, 
                 config={"configurable": {"session_id": userId}}
@@ -32,7 +30,6 @@ async def websocket_sen_msg(websocket: WebSocket,userId:Any):
             promptlist = agent_result['messages']
             frontend_response = {}
             for msg in promptlist:
-                console.print(msg)
                 if hasattr(msg, "tool_calls") and msg.tool_calls:
                     for call in msg.tool_calls:
                         if call['name'] == 'ai_response':
