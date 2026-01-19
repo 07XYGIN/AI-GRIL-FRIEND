@@ -18,13 +18,10 @@ from langchain_core.messages import HumanMessage
 def input_adapter(data: dict):
     history = data.get("history", [])
     user_input = data.get("input", "")
-    console.print(f"Debug history: {history}")
-    console.print(f"Debug user_input: {user_input}")
     
     messages = list(history)
     if user_input and user_input.strip() :
         messages.append(HumanMessage(content=user_input))
-    console.print(f"Debug Messages: {messages}")
     return {"messages": messages}
 agent = create_agent(
     model=llm,
