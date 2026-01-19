@@ -6,6 +6,7 @@ from app.schemas.response import response_success
 from app.model.User import User
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
+from app.core.exceptions import UnicornException
 
 console = Console()
 router = APIRouter(
@@ -17,6 +18,8 @@ async def get_user_info(db: AsyncSession = Depends(get_db),code:Optional[str] = 
     user = select(User.create_at,User.id,User.user_name).where(User.code == code)
     result = await db.execute(user)
     row = result.one_or_none()
+    if row is None:
+        raise UnicornException(name="用户不存在",status_code=404)
     createTime,userId,username = row
     success = {
         "createTime":createTime,
