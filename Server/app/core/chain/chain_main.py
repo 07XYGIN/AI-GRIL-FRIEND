@@ -4,8 +4,8 @@ from langchain.agents import create_agent
 from langchain_core.messages import HumanMessage
 from langchain_core.runnables import RunnableLambda
 from langchain_core.runnables.history import RunnableWithMessageHistory
+from config import llm
 from .prompt import SYSTEM_PROMPT
-from .llm_config import llm
 from .tools.message import msg_info
 from .tools.search_momery import search_memory_tool
 from app.schemas.response import ai_response

@@ -2,7 +2,7 @@ from langchain.tools import tool
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
-from app.core.llm_config import llm
+from app.core.config import llm
 from app.core.chain.momery.term_memory import get_vector_store
 import os
 @tool
