@@ -23,14 +23,15 @@
             />
             <InputGroupAddon align="block-end">
               <InputGroupAddon align="block-start" />
-              <InputGroupButton variant="default" class="rounded-full" size="icon-xs" @click="send">
-                <template v-if="!isSend">
-                  <ArrowUpIcon class="size-4" />
-                </template>
-                <template v-else>
-                  <Loader stroke="red" class="animate-spin size-4" />
-                </template>
-              </InputGroupButton>
+                <InputGroupButton
+                variant="default"
+                class="rounded-full"
+                size="icon-xs"
+                @click="isSend ? cancel() : send()">
+              <ArrowUpIcon v-if="!isSend" class="size-4" />
+              <Loader v-else class="animate-spin size-4" stroke="red" />
+            </InputGroupButton>
+
             </InputGroupAddon>
           </InputGroup>
         </div>
@@ -47,27 +48,40 @@ import {
   InputGroupButton,
   InputGroupTextarea,
 } from '@/components/ui/input-group';
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted } from 'vue';
 import { getMsgList } from '@/api/msg';
-import useWebSocket from '@/utils/useWebSoct';
 import useUserStore from '@/store/modules';
-const getUserInfo = useUserStore();
+import useSse from '@/utils/useSse';
 const msg = ref<string>('');
+const {connect,disconnect} = useSse('http://127.0.0.1:8000/send/sse/',{
+onMessage: (data) => {
+  const lastMsg = msgRes.value[msgRes.value.length - 1];
+  // done时停止追加
+  if(data === '[DONE]') return 
+
+  if (lastMsg?.type === 'ai') {
+    // 在新增的消息中追加data
+    lastMsg.content += data;
+  }else{
+    // 如果最后一条不是aimessage就新增
+    msgRes.value.push({ type: 'ai', content: data })
+  }
+  isSend.value = false
+}
+})
+const getUserInfo = useUserStore();
 const msgRes = ref<Array<{ type: string; content: string }>>([]);
 const isSend = ref(false);
-const wsUrl = ref(`ws://localhost:8000/ws/${getUserInfo.userinfo.userId}`);
-
-const { sendMsg, messages } = useWebSocket(wsUrl.value);
-watch(messages, (v) => {
-  msgRes.value.push({ type: 'ai', content: v });
-  isSend.value = false;
-});
-const send = async () => {
-  if (msg.value === '') return;
-  sendMsg(msg.value);
-  msgRes.value.push({ type: 'human', content: msg.value });
-  msg.value = '';
-  isSend.value = true;
+const send = async () => {  
+  if (isSend.value) return
+  isSend.value = true
+  msgRes.value.push({type:"human",content:msg.value})
+  await connect({
+    body: JSON.stringify({
+      message: msg.value,
+      userId: getUserInfo.userinfo.userId
+    })
+  });
 };
 const getList = async () => {
   if (getUserInfo.userinfo.userId) {
@@ -75,6 +89,11 @@ const getList = async () => {
     msgRes.value = data;
   }
 };
+const cancel = ()=>{  
+  console.log('cancel');
+  isSend.value = false
+  disconnect()
+}
 onMounted(async () => {
   await getUserInfo.UserInfo();
   getList();

@@ -1,14 +1,13 @@
 from fastapi import APIRouter,Depends
 from rich.console import Console
-from app.core.exceptions import UnicornException,loginerr,LoginException
-from app.schemas.response import response_success
-from app.schemas.request import login_from,register_from
-from app.utils.verify import get_password_hash,verify_password
-from app.core.database import get_db
-from app.model.User import User
-from app.model.code import BetaCode
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
+from app.model.User import User
+from app.core.database import get_db
+from app.utils.verify import get_password_hash,verify_password
+from app.schemas.response import response_success
+from app.schemas.request import login_from,register_from
+from app.core.exceptions import UnicornException,LoginException
 console = Console()
 
 router = APIRouter(

@@ -2,19 +2,20 @@ import os
 import random
 import asyncio
 from fastapi import APIRouter
-from fastapi.responses import StreamingResponse
 from rich.console import Console
-from app.schemas.response import response_success
+from fastapi.responses import StreamingResponse
+from app.schemas.request import request_msg
 from app.core.agent.agent_main import app_with_history
-from app.core.agent.momery.term_memory import get_vector_store
 console = Console()
 router = APIRouter()
 
-@router.get('/send/sse/')
-async def sse_msg(msg:str):
-    os.environ["user_id"] = 'd86cebdb-a1d9-426c-a84f-6db31cb4200a'
-    user_id = 'd86cebdb-a1d9-426c-a84f-6db31cb4200a'
-    result = app_with_history.invoke({"input": msg},config={"configurable": {"session_id": user_id}})
+@router.post('/send/sse/')
+async def sse_msg(msg:request_msg):
+    os.environ["user_id"] = msg.userId
+    user_id = msg.userId
+    for i in app_with_history.stream({"input": msg.message},config={"configurable": {"session_id": user_id}}):
+        print(i)
+    result = app_with_history.invoke({"input": msg.message},config={"configurable": {"session_id": user_id}})
     full_text = result.get('output', '')
 
     async def event_generator():
@@ -27,13 +28,6 @@ async def sse_msg(msg:str):
             await asyncio.sleep(random.uniform(0.02, 0.1))
         yield "data: [DONE]\n\n"
     return StreamingResponse(event_generator(), media_type="text/event-stream")
+    return 0
 
 
-@router.delete('/delMemory/{user_id}',response_model=response_success)
-async def del_mem(user_id:str):
-    vector_store = get_vector_store(user_id)
-    results = vector_store.similarity_search(f"user_id:{user_id}", k=1000)
-    print(results)
-    vector_ids = [doc.id for doc in results] 
-    vector_store.delete(vector_ids) 
-    return response_success

@@ -2,6 +2,7 @@ from pydantic import BaseModel
 
 class request_msg(BaseModel):
     message: str
+    userId:str
 
 
 class register_from(BaseModel):

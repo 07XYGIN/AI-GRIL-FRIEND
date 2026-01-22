@@ -15,7 +15,6 @@ import {
   SidebarTrigger,
 } from '@/components/ui/sidebar';
 import Theme from './theme.vue';
-import User from '@/pages/User.vue';
 </script>
 
 <template>
@@ -30,7 +29,6 @@ import User from '@/pages/User.vue';
               ></div>
               <div class="flex flex-1 text-left text-sm leading-tight justify-between items-center">
                 <span class="truncate font-semibold">Gin friend</span>
-                <User />
               </div>
             </SidebarMenuButton>
           </SidebarMenuItem>

@@ -1,12 +1,14 @@
-from fastapi import APIRouter,Header,Depends
 from typing import Optional
+from fastapi import APIRouter,Header,Depends
 from rich.console import Console
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select
 from app.core.database import get_db
 from app.schemas.response import response_success
 from app.model.User import User
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
 from app.core.exceptions import UnicornException
+from app.core.agent.momery.term_memory import get_vector_store
+
 
 console = Console()
 router = APIRouter(
@@ -27,4 +29,12 @@ async def get_user_info(db: AsyncSession = Depends(get_db),code:Optional[str] = 
         "userName":username
     }
     response_success.data = success
+    return response_success
+
+@router.delete('/delMemory/{user_id}',response_model=response_success)
+async def del_mem(user_id:str):
+    vector_store = get_vector_store(user_id)
+    results = vector_store.similarity_search(f"user_id:{user_id}", k=1000)
+    vector_ids = [doc.id for doc in results] 
+    vector_store.delete(vector_ids) 
     return response_success

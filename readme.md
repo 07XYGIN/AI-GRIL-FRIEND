@@ -52,8 +52,7 @@ uv sync
 .venv\Scripts\activate
 
 # 启动服务
-python main.py
-# 或使用 hot reload
+
 uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ~~~
 

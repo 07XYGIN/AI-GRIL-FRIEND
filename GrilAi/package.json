@@ -9,6 +9,7 @@
     "format": "npx prettier --write src && eslint . --ext .js,.mjs,.cjs,.vue"
   },
   "dependencies": {
+    "@microsoft/fetch-event-source": "^2.0.1",
     "@tailwindcss/vite": "^4.1.18",
     "@vee-validate/zod": "^4.15.1",
     "@vueuse/core": "^14.1.0",

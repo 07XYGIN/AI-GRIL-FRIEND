@@ -48,8 +48,6 @@ function useWebSocket(url: string) {
     /**消息 */
     ws.value.onmessage = (e: MessageEvent) => {
       messages.value = e.data;
-      console.log(messages.value);
-      console.log(e.data);
     };
   };
   /**心跳检测 */
