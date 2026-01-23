@@ -17,7 +17,7 @@
         <div class="grid gap-6">
           <InputGroup>
             <InputGroupTextarea
-              placeholder="输入内容开始聊天......"
+              placeholder="给ARUA发送消息"
               v-model="msg"
               @keydown.enter.prevent="send"
             />

@@ -15,6 +15,7 @@ import {
   SidebarTrigger,
 } from '@/components/ui/sidebar';
 import Theme from './theme.vue';
+import { SettingsIcon,MessageCircleDashed,Radiation } from 'lucide-vue-next'
 </script>
 
 <template>
@@ -28,7 +29,7 @@ import Theme from './theme.vue';
                 class="flex aspect-square size-8 items-center justify-center rounded-lg text-sidebar-primary-foreground"
               ></div>
               <div class="flex flex-1 text-left text-sm leading-tight justify-between items-center">
-                <span class="truncate font-semibold">Gin friend</span>
+                <span class="truncate font-semibold">ARUA</span>
               </div>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -41,12 +42,20 @@ import Theme from './theme.vue';
               <SidebarMenuItem>
                 <SidebarMenuButton as-child>
                   <router-link to="/">
-                    <span>Home</span>
+                    <MessageCircleDashed />
+                    <span>对话</span>
                   </router-link>
                 </SidebarMenuButton>
                 <SidebarMenuButton as-child>
                   <router-link to="/memory">
-                    <span>memory</span>
+                    <Radiation />
+                    <span>记忆</span>
+                  </router-link>
+                </SidebarMenuButton>
+                <SidebarMenuButton as-child>
+                  <router-link to="/seting">
+                    <SettingsIcon />
+                    <span>设置</span>
                   </router-link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
