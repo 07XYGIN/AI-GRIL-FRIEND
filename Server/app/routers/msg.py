@@ -13,8 +13,8 @@ router = APIRouter()
 async def sse_msg(msg:request_msg):
     os.environ["user_id"] = msg.userId
     user_id = msg.userId
-    for i in app_with_history.stream({"input": msg.message},config={"configurable": {"session_id": user_id}}):
-        print(i)
+    # for i in app_with_history.stream({"input": msg.message},config={"configurable": {"session_id": user_id}}):
+    #     print(i)
     result = app_with_history.invoke({"input": msg.message},config={"configurable": {"session_id": user_id}})
     full_text = result.get('output', '')
 

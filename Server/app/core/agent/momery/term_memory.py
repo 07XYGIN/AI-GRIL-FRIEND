@@ -1,9 +1,12 @@
-from app.core.database import SYNC_DATABASE_URL
-from langchain_huggingface import HuggingFaceEmbeddings
+from dotenv import load_dotenv
 from langchain_postgres import PGVector
+from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_community.embeddings import DashScopeEmbeddings
 
-embeddings = HuggingFaceEmbeddings(
-    model_name="sentence-transformers/all-mpnet-base-v2"
+from app.core.database import SYNC_DATABASE_URL
+load_dotenv()
+embeddings = DashScopeEmbeddings(
+    model="text-embedding-v4"
 )
 
 def get_vector_store(user_id: str = None):

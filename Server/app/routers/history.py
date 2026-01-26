@@ -13,7 +13,7 @@ router = APIRouter(
 async def history(userId:Any):
     frontend_messages = []
     result = get_session_history(userId)
-    console.print(result)
+    console.print('result',result)
     for msg in result.messages:
         frontend_messages.append({
             "type": msg.type,   
