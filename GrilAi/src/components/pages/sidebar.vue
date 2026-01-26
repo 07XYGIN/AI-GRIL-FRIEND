@@ -29,7 +29,7 @@ import { SettingsIcon,MessageCircleDashed,Radiation } from 'lucide-vue-next'
                 class="flex aspect-square size-8 items-center justify-center rounded-lg text-sidebar-primary-foreground"
               ></div>
               <div class="flex flex-1 text-left text-sm leading-tight justify-between items-center">
-                <span class="truncate font-semibold">ARUA</span>
+                <span class="truncate font-semibold">Aura</span>
               </div>
             </SidebarMenuButton>
           </SidebarMenuItem>

@@ -37,7 +37,7 @@ import { Motion } from 'motion-v'
               tag="div"
               class="w-32 h-32 rounded-full border border-white/30
                      flex items-center justify-center
-                     bg-black backdrop-blur-sm aura-glow relative"
+                     bg-black backdrop-blur-sm Aura-glow relative"
               :animate="{
                 boxShadow: [
                   '0 0 25px rgba(255,255,255,0.25)',
@@ -71,7 +71,7 @@ import { Motion } from 'motion-v'
             :initial="{ opacity: 0, y: 12 }"
             :animate="{ opacity: 1, y: 0 }"
           >
-            <h1 class="text-5xl font-bold tracking-[0.2em] ml-3">AURA</h1>
+            <h1 class="text-5xl font-bold tracking-[0.2em] ml-3">Aura</h1>
             <p class="text-gray-500 tracking-widest text-sm font-light">
               Virtual AI Assistant
               <span class="mx-2 opacity-30">|</span>

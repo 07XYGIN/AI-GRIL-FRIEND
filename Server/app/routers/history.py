@@ -9,6 +9,11 @@ router = APIRouter(
     prefix='/api/history'
 )
 
+@router.delete('/{userId}',response_model=response_success)
+async def del_history(userId:Any):
+    get_session_history(userId).clear()
+    return response_success
+
 @router.get('/{userId}',response_model=response_success)
 async def history(userId:Any):
     frontend_messages = []
@@ -22,8 +27,4 @@ async def history(userId:Any):
     response_success.data = frontend_messages
     return response_success
 
-@router.delete('/{userId}',response_model=response_success)
-async def del_history(userId:Any):
-    result = get_session_history(userId)
-    result.clear()
-    return response_success
+

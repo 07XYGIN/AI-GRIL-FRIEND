@@ -16,12 +16,9 @@ def search_memory_tool(query: str) -> str:
     Returns:
         基于记忆的回复
     """
-    print('='*100)
     user_id = os.environ.get("user_id")
-    print('当前用户id===============',user_id)
     vector_store = get_vector_store(user_id)
     # 检索记忆
-    print('开始查找记忆')
     retriever = vector_store.as_retriever(search_kwargs={"k": 5})
     template_text = """
     请基于以下【回忆】来回答男朋友的话。如果回忆里没有相关信息，就自然地聊天，不要捏造事实。
@@ -48,9 +45,4 @@ def search_memory_tool(query: str) -> str:
     )
     
     response = chain.invoke(query)
-    
-    print('#'*100)
-    print('检索到的记忆------>', response)
-    print('#'*100)
-    
     return response

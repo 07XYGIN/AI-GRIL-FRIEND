@@ -16,6 +16,9 @@ const useUserStore = defineStore(
     const getCode = () => {
       return code.value;
     };
+    const getUserId = ()=>{
+      return userinfo.userId;
+    }
     const UserInfo = async () => {
       const { data } = await getUserInfo();
       userinfo.createTime = data.createTime;
@@ -28,6 +31,7 @@ const useUserStore = defineStore(
       setCode,
       getCode,
       UserInfo,
+      getUserId
     };
   },
   {
