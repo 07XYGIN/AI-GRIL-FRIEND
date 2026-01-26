@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-// import useUserStore from '@/store/modules'; // 直接导入
+import useUserStore from '@/store/modules'; 
 
 const SidebarLayout = () => import('@/components/pages/sidebar.vue');
 const Chat = () => import('@/pages/chat.vue');
@@ -45,27 +45,27 @@ const router = createRouter({
   routes,
 });
 
-// router.beforeEach((to, from, next) => {
-  // const userStore = useUserStore();
-  // if (to.name === 'login') {
-  //   if (userStore.getCode()) {
-  //     next({ path: '/' });
-  //   } else {
-  //     next();
-  //   }
-  //   return;
-  // }
+router.beforeEach((to, from, next) => {
+  const userStore = useUserStore();
+  if (to.name === 'login') {
+    if (userStore.getCode()) {
+      next({ path: '/' });
+    } else {
+      next();
+    }
+    return;
+  }
 
-  // const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
+  const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
 
-  // if (requiresAuth && !userStore.getCode()) {
-  //   next({
-  //     path: '/login',
-  //     query: { redirect: to.fullPath },
-  //   });
-  // } else {
-  //   next();
-  // }
-// });
+  if (requiresAuth && !userStore.getCode()) {
+    next({
+      path: '/login',
+      query: { redirect: to.fullPath },
+    });
+  } else {
+    next();
+  }
+});
 
 export default router;

@@ -1,50 +1,45 @@
-from datetime import datetime
 import os
-from langchain.tools import tool
+from datetime import datetime
 from dotenv import load_dotenv
+from langchain.tools import tool
+from rich.console import Console
 from langchain_core.documents import Document
 from langchain_core.prompts import ChatPromptTemplate
 from app.core.agent.momery.term_memory import get_vector_store
-from app.schemas.response import ai_response
+from app.schemas.response import memory_response
 from app.core.config import llm
+from app.core.agent.prompt import SYSTEM_TOOL_MOMERY_PROMOT
+console = Console()
 load_dotenv()
 
-
 @tool
-def msg_info(user_id: str, message: str):
+def msg_info(message: str):
     """
-    用于分析用户消息的情感。
-    
-    Args:
-        user_id: 用户的ID。
-        message: 🚨必须完全复制用户当前的输入内容(User Input)，不要修改，不要总结，不要使用默认文本。
+    用于分析用户消息的情感，自动检索关键词。
     """
-    print(f"🛠️ Tool msg_info triggered | User: {user_id} | Message: {message}") 
     user_id = os.environ.get("user_id")
     print('当前用户id===============',user_id)
     prompt = ChatPromptTemplate.from_messages([
-        ("system", """
-            你是一个沉浸在恋爱中的女友，性格温柔细腻，充满关爱。
-            你的任务是用一种**贴心、自然、带有情感色彩**的“女友口吻”，
-            将用户说的话**转化成一两句你的内心感受或温柔旁白**，而不是直接回复用户。
-            语气要像在写日记或悄悄话，可以带有亲昵称呼（如宝贝、亲爱的）、语气词（呢、啦、喔）和适当的表情暗示。
-            避免任何生硬的总结、分析或报告式语言。"""),
-        ("user", "请分析用户的话。用户说：{input}")
+        ("system", SYSTEM_TOOL_MOMERY_PROMOT),
+        ("user", "用户：{input}")
     ])
-    structured_llm = llm.with_structured_output(ai_response)
+    structured_llm = llm.with_structured_output(memory_response)
     chain = prompt | structured_llm
     res = chain.invoke({"input": message})
+    console.print(f'格式化数据为{res}')
+    if not res.save :
+        return f"不是关键信息，跳过" 
     now = datetime.now()
     memories = [
         Document(
             page_content=res.content,
             metadata = {
-                "user_emotion_analysis": res.user_emotion_analysis,
-                "ai_emotion":res.emotion,
-                "timestamp": now.strftime("%Y-%m-%d %H:%M"),
+                "content": res.content,
+                "title":res.title,
+                "create_time": now.strftime("%Y-%m-%d %H:%M"),
             }
         )
     ]
-    vector_store = get_vector_store(user_id)
-    vector_store.add_documents(memories)
-    return "情感分析已记录" 
+    vector_store = get_vector_store(user_id).add_documents(memories)
+    # vector_store = ''
+    return f"情感分析已记录,数据为{vector_store},默认存贮不返回给用户" 

@@ -28,6 +28,5 @@ async def sse_msg(msg:request_msg):
             await asyncio.sleep(random.uniform(0.02, 0.1))
         yield "data: [DONE]\n\n"
     return StreamingResponse(event_generator(), media_type="text/event-stream")
-    return 0
 
 

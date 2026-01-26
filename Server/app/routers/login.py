@@ -36,7 +36,6 @@ async def register(login:register_from,db: AsyncSession = Depends(get_db)):
 
 @router.post('/login',response_model=response_success)
 async def login(login:login_from,db: AsyncSession = Depends(get_db)):
-    console.log(login)
     user = (
         select(User.psd,User.code)
         .where(User.user_name == login.userName)
@@ -46,10 +45,7 @@ async def login(login:login_from,db: AsyncSession = Depends(get_db)):
     if row is None:
         raise LoginException("用户不存在")
     # 解包元组
-    console.log(row)
     base_psd, code_info = row
-    console.log(code_info)
-    console.log(login.code)
     if not verify_password(login.password, base_psd):
         raise LoginException("密码错误")
     if code_info is None or login.code != code_info:

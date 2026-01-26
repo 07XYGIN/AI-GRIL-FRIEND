@@ -1,3 +1,4 @@
+from datetime import date
 from pydantic import BaseModel,Field
 from typing import List, Literal,Any
 
@@ -21,3 +22,13 @@ class ai_response(BaseModel):
     user_emotion_analysis: str = Field(
         description="通过分析用户的话，推测当下的情绪"
     )
+
+
+class memory_response(BaseModel):
+    content:str = Field(description="对记忆的摘要",max_length=12)
+
+    create_time:date = Field(description='记忆创建时间')
+
+    title:str = Field(description='该条记忆的标题',min_length=8,max_length=10)
+
+    save:bool = Field(description='是否为关键信息')

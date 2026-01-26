@@ -1,6 +1,6 @@
 <template>
   <div class="w-full h-full flex flex-col px-16">
-    <div class="flex-1">
+    <div class="flex-1 overflow-auto" ref="msgContainer">
       <div
         v-for="(item, index) in msgRes"
         :key="index"
@@ -53,6 +53,7 @@ import { getMsgList } from '@/api/msg';
 import useUserStore from '@/store/modules';
 import useSse from '@/utils/useSse';
 const msg = ref<string>('');
+  const msgContainer = ref<HTMLDivElement | null>(null);
 const {connect,disconnect} = useSse('http://127.0.0.1:8000/send/sse/',{
 onMessage: (data) => {
   const lastMsg = msgRes.value[msgRes.value.length - 1];
@@ -67,6 +68,7 @@ onMessage: (data) => {
     msgRes.value.push({ type: 'ai', content: data })
   }
   isSend.value = false
+  scrollToBottom()
 }
 })
 const getUserInfo = useUserStore();
@@ -82,6 +84,8 @@ const send = async () => {
       userId: getUserInfo.userinfo.userId
     })
   });
+  msg.value = ''
+  scrollToBottom()
 };
 const getList = async () => {
   if (getUserInfo.userinfo.userId) {
@@ -94,9 +98,19 @@ const cancel = ()=>{
   isSend.value = false
   disconnect()
 }
+const scrollToBottom = async () => {
+  if (msgContainer.value) {
+    window.scrollTo({
+      top: msgContainer.value.scrollHeight,
+      behavior: 'smooth'
+    });
+  }
+};
+
 onMounted(async () => {
   await getUserInfo.UserInfo();
-  getList();
+  await getList();
+  scrollToBottom()
 });
 </script>
 

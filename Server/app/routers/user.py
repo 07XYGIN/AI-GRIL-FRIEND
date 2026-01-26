@@ -38,3 +38,18 @@ async def del_mem(user_id:str):
     vector_ids = [doc.id for doc in results] 
     vector_store.delete(vector_ids) 
     return response_success
+
+@router.get('/memoryList/',response_model=response_success)
+async def get_memory_list(user_id:str):
+    vector_store = get_vector_store(user_id)
+    results = vector_store.similarity_search(f"user_id:{user_id}", k=50)
+    memory_list = [doc for doc in results] 
+    response_success.data = memory_list
+    return response_success
+
+
+@router.delete('/delSingleItemMomery/{user_id}/{del_id}',response_model=response_success)
+async def del_single_data(user_id:str,del_id:str):
+    vector_store = get_vector_store(user_id)
+    vector_store.delete([del_id])
+    return response_success

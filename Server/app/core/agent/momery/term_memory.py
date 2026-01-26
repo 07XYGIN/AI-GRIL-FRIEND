@@ -1,6 +1,5 @@
 from dotenv import load_dotenv
 from langchain_postgres import PGVector
-from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.embeddings import DashScopeEmbeddings
 
 from app.core.database import SYNC_DATABASE_URL

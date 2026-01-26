@@ -19,3 +19,16 @@ export const delMsgList = (id: string) => {
     method: 'delete',
   });
 };
+export const delSinglList = (id: string,del_id:string) => {
+  return request({
+    url: `/api/user/delSingleItemMomery/${id}/${del_id}`,
+    method: 'delete',
+  });
+};
+
+export const getMomeryList = (user_id:object)=>{
+  return request({
+    url:"/api/user/memoryList/",
+    params:user_id
+  })
+}

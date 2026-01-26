@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { HTMLAttributes } from "vue"
+import { reactive, type HTMLAttributes } from 'vue';
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
@@ -7,11 +7,28 @@ import {
   FieldGroup,
   FieldLabel,
 } from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
+import { useRouter } from 'vue-router';
 
 const props = defineProps<{
   class?: HTMLAttributes["class"]
 }>()
+import { Input } from '@/components/ui/input';
+import type { loginForm } from '@/api/login';
+import { login } from '@/api/login';
+import useUserStore from '@/store/modules';
+const user = useUserStore();
+const router = useRouter();
+const from = reactive<loginForm>({
+  userName: undefined,
+  password: undefined,
+  code: undefined,
+});
+
+const loginSubmit = async () => {
+  const { data } = await login(from);
+  user.setCode(data);
+  router.push('/');
+};
 </script>
 
 <template>
@@ -29,7 +46,7 @@ const props = defineProps<{
         <FieldLabel for="email">
           用户名
         </FieldLabel>
-        <Input placeholder="请输入用户名" required />
+        <Input placeholder="用户名" required v-model="from.userName" />
       </Field>
       <Field>
         <div class="flex items-center">
@@ -37,7 +54,13 @@ const props = defineProps<{
             密码
           </FieldLabel>
         </div>
-        <Input id="password" type="password" required placeholder="请输入密码"/>
+        <Input
+                id="password"
+                type="password"
+                required
+                placeholder="请输入密码"
+                v-model="from.password"
+              />
       </Field>
       <Field>
         <div class="flex items-center">
@@ -45,12 +68,16 @@ const props = defineProps<{
             邀请码
           </FieldLabel>
         </div>
-        <Input id="password" type="password" required placeholder="请输入邀请码"/>
+        <Input
+                id="password"
+                type="password"
+                required
+                placeholder="请输入邀请码"
+                v-model="from.code"
+              />
       </Field>
       <Field>
-        <Button type="submit">
-          登录
-        </Button>
+        <Button @click="loginSubmit"> 登录 </Button>
       </Field>
     </FieldGroup>
   </form>

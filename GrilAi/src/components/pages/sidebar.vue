@@ -72,7 +72,6 @@ import { SettingsIcon,MessageCircleDashed,Radiation } from 'lucide-vue-next'
       >
         <div class="flex items-center gap-2 px-4">
           <SidebarTrigger class="-ml-1" />
-          <Theme />
         </div>
       </header>
       <main class="h-full">
