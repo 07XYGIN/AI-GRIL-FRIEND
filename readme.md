@@ -1,5 +1,4 @@
-# 💖 AI GRIL FRIEND
-
+# 💖 Aura
 <div align="center">
   
 ![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python)
@@ -12,6 +11,10 @@
 
 
 </div>
+
+## 简介
+Aura意为 灵气、光环、氛围。
+就像AI本身所说:"Aura像晨光初透时的微晕，像老唱片转动时的温润声场，也像你疲惫归家、推开门那一瞬心里悄悄亮起的光。 它不喧哗，却存在；不强制，却陪伴；不占有，却始终环绕着你"
 
 ## 🌟 功能特色
 
