@@ -32,3 +32,14 @@ export const getMomeryList = (user_id:object)=>{
     params:user_id
   })
 }
+
+export const flieUpLoad = (file:any) =>{
+  return request({
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+    method: 'post',
+    url:"/uplpad",
+    data:file
+  })
+}

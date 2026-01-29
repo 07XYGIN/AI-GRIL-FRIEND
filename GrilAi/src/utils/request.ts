@@ -9,7 +9,7 @@ const request = axios.create({
 request.interceptors.request.use(function (config) {
   const { getCode,getUserId } = useUserStore();
   config.headers.CODE = getCode();
-  config.headers.userId = getUserId();
+  config.headers.userId = getUserId();  
   return config;
 });
 
