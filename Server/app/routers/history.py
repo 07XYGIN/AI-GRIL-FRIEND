@@ -18,7 +18,6 @@ async def del_history(userId:Any):
 async def history(userId:Any):
     frontend_messages = []
     result = get_session_history(userId)
-    console.print('result',result)
     for msg in result.messages:
         frontend_messages.append({
             "type": msg.type,   

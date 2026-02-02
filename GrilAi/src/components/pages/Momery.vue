@@ -22,7 +22,7 @@
                         {{ item.metadata.title }}
                     </Badge>
                     <span class="text-[10px] text-muted-foreground font-mono">
-                        {{ item.metadata.timestamp }}
+                        {{ item.metadata.create_time }}
                     </span>
                 </CardHeader>
 

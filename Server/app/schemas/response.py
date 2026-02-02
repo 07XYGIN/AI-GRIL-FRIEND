@@ -25,10 +25,10 @@ class ai_response(BaseModel):
 
 
 class memory_response(BaseModel):
-    content:str = Field(description="对记忆的摘要",max_length=12)
+    content:str = Field(description="对记忆的摘要")
 
     create_time:date = Field(description='记忆创建时间')
 
-    title:str = Field(description='该条记忆的标题',min_length=8,max_length=10)
+    title:str = Field(description='该条记忆的标题,需要精简')
 
     save:bool = Field(description='是否为关键信息')

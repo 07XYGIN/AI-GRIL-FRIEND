@@ -15,8 +15,8 @@
             <InputGroupTextarea placeholder="给Aura发送消息" v-model="msg" @keydown.enter.prevent="send" />
             <InputGroupAddon align="block-end">
               <InputGroupButton variant="ghost">
-                <PlusIcon class="size-4" />
-                <Input id="picture" type="file" multiple @change="handleSubmit"/>
+                <!-- <PlusIcon class="size-4" /> -->
+                <!-- <Input id="picture" type="file" multiple @change="handleSubmit"/> -->
               </InputGroupButton>
               <InputGroupText class="ml-auto"></InputGroupText>
               <InputGroupButton variant="default" class="rounded-full" size="icon-xs"
@@ -33,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import { ArrowUpIcon, Loader, PlusIcon } from 'lucide-vue-next';
+import { ArrowUpIcon, Loader } from 'lucide-vue-next';
 import {
   InputGroup,
   InputGroupAddon,
