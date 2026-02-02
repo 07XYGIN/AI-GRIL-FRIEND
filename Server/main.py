@@ -1,22 +1,26 @@
+import uvicorn
+import logging
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.exceptions import RequestValidationError
 from contextlib import asynccontextmanager
+from fastapi.exceptions import RequestValidationError
+from fastapi.middleware.cors import CORSMiddleware
 from app.routers import msg
 from app.routers import login
 from app.routers import history
 from app.routers import user
 from app.core.exceptions import unicorn_exception_handler,UnicornException,validation_exception_handler,loginerr,LoginException
-import uvicorn
+logging.basicConfig(level=logging.DEBUG,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    datefmt="%Y-%m-%d %H:%M:%S"
+)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-
-    print(f'程序启动成功')
+    logging.info('程序启动')
 
     yield 
 
-    print("关闭成功")
+    logging.info('程序关闭')
 
 def create_app():
     app = FastAPI(lifespan=lifespan)
@@ -42,7 +46,6 @@ def create_app():
     return app
 
 app = create_app()
-
 
 if __name__ == '__main__':
     uvicorn.run(

@@ -2,6 +2,7 @@ import os
 import random
 import asyncio
 import uuid
+import logging
 from fastapi import APIRouter, UploadFile
 from rich.console import Console
 from fastapi.responses import StreamingResponse
@@ -17,6 +18,7 @@ async def sse_msg(msg:request_msg):
     os.environ["user_id"] = msg.userId
     user_id = msg.userId    
     result = app_with_history.invoke({"input": msg.message},config={"configurable": {"session_id": user_id}})
+    logging.info(f'agent返回结果为{result}')
     full_text = result.get('output', '')
     async def event_generator():
         i = 0

@@ -1,3 +1,4 @@
+import logging
 from fastapi import APIRouter,Depends
 from rich.console import Console
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -36,6 +37,7 @@ async def register(login:register_from,db: AsyncSession = Depends(get_db)):
 
 @router.post('/login',response_model=response_success)
 async def login(login:login_from,db: AsyncSession = Depends(get_db)):
+    logging.info(f"用户 {login.userName} 尝试登录,\n请求参数{login}")
     user = (
         select(User.psd,User.code)
         .where(User.user_name == login.userName)
