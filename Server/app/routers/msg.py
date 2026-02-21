@@ -4,14 +4,12 @@ import asyncio
 import uuid
 import logging
 from fastapi import APIRouter, UploadFile
-from rich.console import Console
 from fastapi.responses import StreamingResponse
 from app.schemas.request import request_msg
 from app.core.agent.agent_main import app_with_history
-console = Console()
 router = APIRouter()
 
-uploaded_files = {}
+# uploaded_files = {}
 
 @router.post('/send/sse/')
 async def sse_msg(msg:request_msg):
@@ -31,21 +29,21 @@ async def sse_msg(msg:request_msg):
         yield "data: [DONE]\n\n"
     return StreamingResponse(event_generator(), media_type="text/event-stream")
 
-@router.post('/uplpad')
-async def upload(file:UploadFile):
-    console.print(file.content_type,style='red')
-    content = await file.read()
+# @router.post('/uplpad')
+# async def upload(file:UploadFile):
+#     console.print(file.content_type,style='red')
+#     content = await file.read()
     
-    file_id = str(uuid.uuid4())
-    with open("my_image.pdf", "wb") as f:
-    # 3. 写入数据
-        f.write(content)
-    print(content)
-    uploaded_files[file_id] = {
-        "filename": file.filename,
-        "content_type": file.content_type,
-        "size": len(content),
-        "file_id": file_id,
-        "content":content
-    }
-    return 0
+#     file_id = str(uuid.uuid4())
+#     with open("my_image.pdf", "wb") as f:
+#     # 3. 写入数据
+#         f.write(content)
+#     print(content)
+#     uploaded_files[file_id] = {
+#         "filename": file.filename,
+#         "content_type": file.content_type,
+#         "size": len(content),
+#         "file_id": file_id,
+#         "content":content
+#     }
+#     return 0

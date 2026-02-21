@@ -1,6 +1,5 @@
 from typing import Optional
 from fastapi import APIRouter,Header,Depends
-from rich.console import Console
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from app.core.database import get_db
@@ -10,7 +9,6 @@ from app.core.exceptions import UnicornException
 from app.core.agent.momery.term_memory import get_vector_store
 
 
-console = Console()
 router = APIRouter(
     prefix="/api/user"
 )

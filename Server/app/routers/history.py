@@ -3,8 +3,6 @@ from fastapi import APIRouter
 
 from app.schemas.response import response_success
 from app.utils.history import get_session_history
-from rich.console import Console
-console = Console()
 router = APIRouter(
     prefix='/api/history'
 )

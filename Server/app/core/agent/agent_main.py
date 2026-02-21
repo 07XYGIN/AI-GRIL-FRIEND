@@ -1,5 +1,4 @@
 from dotenv import load_dotenv
-from rich.console import Console
 from langchain.agents import create_agent
 from langchain_core.messages import HumanMessage
 from langchain_core.runnables import RunnableLambda
@@ -11,7 +10,6 @@ from .tools.search_momery import search_memory_tool
 from app.schemas.response import ai_response
 from app.utils.history import get_session_history
 load_dotenv()
-console = Console()
 def input_adapter(data: dict):
     history = data.get("history", [])
     user_input = data.get("input", "")

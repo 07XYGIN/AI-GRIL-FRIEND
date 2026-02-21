@@ -1,6 +1,5 @@
 import logging
 from fastapi import APIRouter,Depends
-from rich.console import Console
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from app.model.User import User
@@ -9,7 +8,6 @@ from app.utils.verify import get_password_hash,verify_password
 from app.schemas.response import response_success
 from app.schemas.request import login_from,register_from
 from app.core.exceptions import UnicornException,LoginException
-console = Console()
 
 router = APIRouter(
     prefix='/api'
