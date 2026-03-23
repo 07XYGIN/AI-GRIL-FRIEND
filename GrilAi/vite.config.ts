@@ -5,6 +5,9 @@ import path from 'node:path'
 
 // https://vite.dev/config/
 export default defineConfig({
+  server:{
+    open:true
+  },
   plugins: [vue(),tailwindcss()],
   resolve: {
     alias: {
