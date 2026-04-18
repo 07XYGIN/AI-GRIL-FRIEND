@@ -1,13 +1,11 @@
 import os
 from dotenv import load_dotenv
-from langchain_openai import ChatOpenAI
+from langchain_ollama import ChatOllama
 load_dotenv()
 
 
-llm = ChatOpenAI(
+llm = ChatOllama(
     model="qwen-plus",
-    openai_api_key=os.getenv("DASHSCOPE_API_KEY"),
-    openai_api_base="https://dashscope.aliyuncs.com/compatible-mode/v1",
     temperature=1.9,
 )
 

@@ -2,7 +2,7 @@ import os
 import logging
 from datetime import datetime
 from dotenv import load_dotenv
-from langchain.tools import tool
+from langchain.tools import tool    
 from langchain_core.documents import Document
 from langchain_core.prompts import ChatPromptTemplate
 from app.core.agent.momery.term_memory import get_vector_store
