@@ -42,3 +42,5 @@ test/
 .env.*.local
 
 !.env.example
+
+**/test
