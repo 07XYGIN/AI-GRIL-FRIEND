@@ -112,6 +112,4 @@ graph TB
 
 当前已完成:
 
-- sse
-- 长期记忆
-- 聊天记录
+- 引入langgraph graphstate概念优化model
