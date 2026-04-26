@@ -10,10 +10,11 @@ from app.schemas.request import login_from,register_from
 from app.core.exceptions import UnicornException,LoginException
 
 router = APIRouter(
-    prefix='/api'
+    prefix='/api',
+    tags=['用户权限']
 )
 
-@router.post('/register',response_model=response_success)
+@router.post('/register',response_model=response_success,summary='注册')
 async def register(login:register_from,db: AsyncSession = Depends(get_db)):
     user = select(User.user_name).where(User.user_name == login.userName)
     result = await db.execute(user)
@@ -33,7 +34,7 @@ async def register(login:register_from,db: AsyncSession = Depends(get_db)):
     return response_success
 
 
-@router.post('/login',response_model=response_success)
+@router.post('/login',response_model=response_success,summary='登录')
 async def login(login:login_from,db: AsyncSession = Depends(get_db)):
     logging.info(f"用户 {login.userName} 尝试登录,\n请求参数{login}")
     user = (

@@ -2,7 +2,7 @@ import request from '@/utils/request';
 
 export const sendMsg = (msg: object) => {
   return request({
-    url: '/msg/send',
+    url: '/api/msg/send',
     method: 'post',
     data: msg,
   });
@@ -30,16 +30,5 @@ export const getMomeryList = (user_id:object)=>{
   return request({
     url:"/api/user/memoryList/",
     params:user_id
-  })
-}
-
-export const flieUpLoad = (file:any) =>{
-  return request({
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-    method: 'post',
-    url:"/uplpad",
-    data:file
   })
 }

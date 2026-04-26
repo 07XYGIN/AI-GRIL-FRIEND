@@ -16,7 +16,7 @@ logging.basicConfig(level=logging.DEBUG,
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    logging.info('程序启动')
+    logging.info('程序启动成功')
 
     yield 
 
@@ -32,7 +32,7 @@ def create_app():
         allow_headers=["*"],
         max_age=86400
     )
-    routers:list[any,any] = [msg.router,login.router,history.router,user.router]
+    routers:list[any,any] = [login.router,user.router,msg.router,history.router,]
     for router in routers:
         app.include_router(router)
 
@@ -52,5 +52,6 @@ if __name__ == '__main__':
         "main:app",
         port=8000,
         reload=True,
+        host="0.0.0.0"
     )
 

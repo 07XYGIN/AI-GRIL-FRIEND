@@ -56,7 +56,7 @@ uv sync
 
 # 启动服务
 
-uvicorn main:app --reload --host 0.0.0.0 --port 8000
+py main.py
 ~~~
 
 
@@ -110,6 +110,5 @@ graph TB
 
 ## 里程碑
 
-当前已完成:
+功能列表
 
-- 引入langgraph graphstate概念优化model
