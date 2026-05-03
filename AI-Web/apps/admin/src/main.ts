@@ -14,6 +14,6 @@ app.use(router)
    .use(ElementPlus)
    .mount('#app');
 
-// const { useUserStore } = await import('./store/user');
-// const userStore = useUserStore();
-// userStore.loadFromStorage();
+const { useUserStore } = await import('./store/user');
+const userStore = useUserStore();
+userStore.loadToken();
