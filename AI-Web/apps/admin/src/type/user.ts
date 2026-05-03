@@ -13,3 +13,8 @@ export interface RegisterForm {
     email: string,
     sex?: 0 | 1,
 }
+
+export interface LoginResponse {
+    token: string;
+    // 其他字段如果有
+}
