@@ -1,6 +1,6 @@
 import axios from "axios";
 import {ElMessage} from "element-plus";
-import { useUserStore } from "@/store/user";
+import { useUserStore } from "@/store/modules/user";
 
 const request = axios.create({
     baseURL: 'http://localhost:8080',
@@ -26,7 +26,7 @@ request.interceptors.response.use(function (response) {
             type: 'error'
         });
     }
-    return response.data.data;
+    return response.data;
 }, function (error) {
     ElMessage.error(error.message);
     return Promise.reject(error);

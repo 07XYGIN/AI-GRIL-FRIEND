@@ -1,26 +1,50 @@
-import {createRouter, createWebHashHistory} from 'vue-router';
+import { createRouter, createWebHashHistory, type RouteRecordRaw } from 'vue-router'
 
-
-const routes = [
-    {
-        path: '/',
-        component: import('@/pages/login/Login.vue'),
-        name: 'login',
-        meta: { requiresAuth: false },
-    },
-    {
-        path: '/register',
-        component: import('@/pages/register/Register.vue'),
-        name: 'register',
-        meta: { requiresAuth: false },
-    },
-];
+const routes: RouteRecordRaw[] = [
+  {
+    path: '/',
+    component: () => import('@/pages/layout/Layout.vue'),
+    meta: { requiresAuth: true },
+    children: [
+      {
+        path: '',
+        name: 'home',
+        component: () => import('@/pages/home/Home.vue'),
+        meta: { title: '首页' },
+      },
+    ],
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('@/pages/login/Login.vue'),
+    meta: { requiresAuth: false },
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: () => import('@/pages/register/Register.vue'),
+    meta: { requiresAuth: false },
+  },
+]
 
 const router = createRouter({
-    history: createWebHashHistory(),
-    routes,
-});
+  history: createWebHashHistory(),
+  routes,
+})
 
+router.beforeEach((to) => {
+  const token = localStorage.getItem('token')
 
+  if (token && to.path === '/login') {
+    return { path: '/' }
+  }
 
-export default router;
+  if (to.meta.requiresAuth && !token) {
+    return { path: '/login' }
+  }
+
+  return true
+})
+
+export default router
