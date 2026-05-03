@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springboot_test.mapper.userMapper">
+    <select id="findUser"
+            parameterType="com.example.springboot_test.DTO.UserDto"
+            resultType="com.example.springboot_test.DTO.UserDto">
+        SELECT username , password , email , sex , age FROM user
+        <where>
+            <if test="email != null and email != ''">
+                AND email = #{email}
+            </if>
+            <if test="sex != null and sex != ''">
+                AND sex = #{sex}
+            </if>
+            <if test="age != null and age != ''">
+                AND age = #{age}
+            </if>
+            <if test="username != null and username != ''">
+                AND username = #{username}
+            </if>
+        </where>
+    </select>
+    <insert id="insertUser" parameterType="com.example.springboot_test.DTO.UserDto">
+        INSERT INTO user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            username,
+            password,
+            <if test="email != null and email != ''">email,</if>
+            <if test="sex != null and sex != ''">sex,</if>
+            <if test="age != null and age != ''">age,</if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            #{username},
+            #{password},
+            <if test="email != null and email != ''">#{email},</if>
+            <if test="sex != null and sex != ''">#{sex},</if>
+            <if test="age != null and age != ''">#{age},</if>
+        </trim>
+    </insert>
+</mapper>

@@ -1,0 +1,18 @@
+{
+  "name": "ai-web",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A pnpm monorepo with ai project",
+  "scripts": {
+    "dev:vue": "pnpm --filter vue-app dev",
+    "dev:react": "pnpm --filter react-app dev",
+    "build:vue": "pnpm --filter vue-app build",
+    "build:react": "pnpm --filter react-app build",
+    "build:all": "pnpm -r --filter \"./apps/*\" build",
+    "clean": "pnpm -r exec rm -rf node_modules dist .turbo"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=10.0.0"
+  }
+}
