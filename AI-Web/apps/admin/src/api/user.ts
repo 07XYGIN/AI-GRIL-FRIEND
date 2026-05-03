@@ -1,6 +1,6 @@
 import request from "@/utils/requests";
-import {User, LoginResponse} from "@/type/user";
-import { useUserStore } from "@/store/user";
+import type { User, LoginResponse } from "@/type/user";
+import { useUserStore } from "@/store/modules/user";
 
 /**
  * 注册
@@ -17,12 +17,9 @@ export const register = (data:User)=>{
 * 用户登录
 * */
 export const login = async (data:User): Promise<LoginResponse> =>{
-    const response: LoginResponse = await request({
+    return request({
         url:"/user/Login",
         method:"POST",
         data
     });
-    const userStore = useUserStore();
-    userStore.setToken(response.token);
-    return response;
 }
