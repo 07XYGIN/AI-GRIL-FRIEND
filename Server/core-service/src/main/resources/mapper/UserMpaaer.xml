@@ -21,6 +21,16 @@
             </if>
         </where>
     </select>
+    <select id="findUserInfo" parameterType="com.example.springboot_test.DTO.UserDto"
+            resultType="com.example.springboot_test.DTO.UserDto">
+        SELECT id, username , email , sex , age FROM user
+        <where>
+            <if test="username != null and username != ''">
+                AND username = #{userName}
+            </if>
+        </where>
+    </select>
+
     <insert id="insertUser" parameterType="com.example.springboot_test.DTO.UserDto">
         INSERT INTO user
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -38,4 +48,5 @@
             <if test="age != null and age != ''">#{age},</if>
         </trim>
     </insert>
+
 </mapper>

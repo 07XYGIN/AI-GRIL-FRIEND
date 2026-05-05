@@ -5,9 +5,11 @@ import com.example.springboot_test.common.Response;
 import com.example.springboot_test.mapper.userMapper;
 import com.example.springboot_test.util.Crypto;
 import com.example.springboot_test.util.JWTUtil;
+import com.example.springboot_test.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class LoginService {
@@ -16,7 +18,7 @@ public class LoginService {
     @Autowired
     private Crypto cipher;
     @Autowired
-    private JWTUtil Jwt;
+    private RedisUtil redisUtil;
     @Autowired
     private JWTUtil jWTUtil;
 
@@ -36,6 +38,21 @@ public class LoginService {
             return Response.Error("密码错误");
         }
         String token = jWTUtil.generateToken(user.getUsername());
+        redisUtil.set(
+                "token:" + userinfo.getUsername(),
+                token,
+                24,
+                TimeUnit.HOURS
+        );
         return Response.loginSuccess(token);
+    }
+
+
+    public void Logout(String userId) {
+        redisUtil.delete("token:" + userId);
+    }
+
+    public UserDto GetUserInfoService(String userName){
+        return userMapper.findUserInfo(userName);
     }
 }

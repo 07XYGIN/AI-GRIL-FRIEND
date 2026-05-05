@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/store/modules/user'
+import {logout} from "@/api/user.ts";
 
 const router = useRouter()
 const route = useRoute()
@@ -15,15 +16,18 @@ const handleAsideSelect = (index: string) => {
 }
 
 const handleLogout = () => {
-  userStore.clearToken()
-  router.push('/login')
+  const userName: string = userStore.userInfo.username
+  logout(userName).then(() => {
+    userStore.clearToken()
+    router.push('/login')
+  })
 }
 </script>
 
 <template>
   <el-container class="layout-shell">
     <el-aside width="220px" class="layout-aside">
-      <div class="brand">Admin Console</div>
+      <div class="brand text-center">Aura Admin</div>
       <el-menu
         :default-active="activeAside"
         class="aside-menu"

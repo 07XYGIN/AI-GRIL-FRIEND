@@ -20,7 +20,13 @@ request.interceptors.request.use(function (config) {
 request.interceptors.response.use(function (response) {
     if (response.data.code >= 200 && response.data.code < 300) {
         ElMessage.success(response.data.message);
-    } else if (response.data.code >= 500 || response.data.code === 422) {
+    }
+    else if (response.data.code >= 500 || response.data.code === 422) {
+        ElMessage({
+            message: response.data.message,
+            type: 'error'
+        });
+    }else{
         ElMessage({
             message: response.data.message,
             type: 'error'
@@ -28,7 +34,7 @@ request.interceptors.response.use(function (response) {
     }
     return response.data;
 }, function (error) {
-    ElMessage.error(error.message);
+    ElMessage.error(error.message || '请求失败');
     return Promise.reject(error);
 });
 

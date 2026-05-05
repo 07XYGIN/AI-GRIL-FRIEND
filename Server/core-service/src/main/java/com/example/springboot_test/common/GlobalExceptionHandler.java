@@ -12,7 +12,6 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY) // 422 对应 UNPROCESSABLE_ENTITY
     public Map<String, Object> handleValidationExceptions(MethodArgumentNotValidException ex) {
