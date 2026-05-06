@@ -4,10 +4,9 @@
   "private": true,
   "description": "A pnpm monorepo with ai project",
   "scripts": {
-    "dev:vue": "pnpm --filter vue-app dev",
-    "dev:react": "pnpm --filter react-app dev",
-    "build:vue": "pnpm --filter vue-app build",
-    "build:react": "pnpm --filter react-app build",
+    "dev:admin": "pnpm --filter admin dev",
+    "dev:web": "pnpm --filter web dev",
+    "dev:bff": "pnpm --filter bff start:dev",
     "build:all": "pnpm -r --filter \"./apps/*\" build",
     "clean": "pnpm -r exec rm -rf node_modules dist .turbo"
   },
