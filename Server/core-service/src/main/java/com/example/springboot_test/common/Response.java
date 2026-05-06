@@ -35,4 +35,5 @@ public class Response<T> {
         result.setToken(token);
         return result;
     }
+    
 }
