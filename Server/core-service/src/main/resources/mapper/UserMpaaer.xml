@@ -23,10 +23,10 @@
     </select>
     <select id="findUserInfo" parameterType="com.example.springboot_test.DTO.UserDto"
             resultType="com.example.springboot_test.DTO.UserDto">
-        SELECT id, username , email , sex , age FROM user
+        SELECT * FROM user
         <where>
             <if test="username != null and username != ''">
-                AND username = #{userName}
+                AND username = #{username}
             </if>
         </where>
     </select>
@@ -49,4 +49,24 @@
         </trim>
     </insert>
 
+    <delete id="deleteUser">
+        delete from user where username = #{username}
+    </delete>
+
+    <update id="updateUser">
+        UPDATE user SET
+        <if test="email != null and email != ''">
+            email = #{email},
+        </if>
+        <if test="sex != null and sex != ''">
+            sex = #{sex},
+        </if>
+        <if test="age != null and age != ''">
+            age = #{age},
+        </if>
+        <if test="username != null and username != ''">
+            username = #{username}
+        </if>
+        WHERE username = #{username}
+    </update>
 </mapper>

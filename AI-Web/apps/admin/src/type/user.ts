@@ -6,6 +6,8 @@ export interface User{
     email: string;
 }
 
+export type UserInfo = User
+
 export interface RegisterForm {
     username: string
     password: string

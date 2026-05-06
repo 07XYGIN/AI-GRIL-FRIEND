@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/store/modules/user'
-import {logout} from "@/api/user.ts";
+import { logout } from "@/api/user.ts";
 
 const router = useRouter()
 const route = useRoute()
@@ -15,12 +15,16 @@ const handleAsideSelect = (index: string) => {
   router.push(index)
 }
 
-const handleLogout = () => {
+const handleLogout = async () => {
   const userName: string = userStore.userInfo.username
-  logout(userName).then(() => {
+  try {
+    if (userName) {
+      await logout(userName)
+    }
+  } finally {
     userStore.clearToken()
-    router.push('/login')
-  })
+    await router.push('/login')
+  }
 }
 </script>
 
@@ -36,6 +40,10 @@ const handleLogout = () => {
         <el-menu-item index="/">
           <el-icon><House /></el-icon>
           <span>首页</span>
+        </el-menu-item>
+        <el-menu-item index="/user/userInfo">
+          <el-icon><User /></el-icon>
+          <span>个人中心</span>
         </el-menu-item>
       </el-menu>
     </el-aside>

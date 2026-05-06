@@ -31,12 +31,12 @@ public class userController {
     }
 
     @PostMapping("Login")
-    public Response<String> Login(@RequestBody UserDto user) {
+    public Response<String> Login(@Valid @RequestBody UserDto user) {
         return loginService.Login(user);
     }
 
     @GetMapping("logout/{userId}")
-    public Response<String> Logout(@PathVariable String userId){
+    public Response<String> Logout(@Valid @PathVariable String userId){
         loginService.Logout(userId);
         return Response.ok();
     }
@@ -44,6 +44,22 @@ public class userController {
     @GetMapping("userInfo")
     public Response<UserDto> GetUserInfo(@RequestHeader("Authorization") String authHeader){
         UserDto info = loginService.GetUserInfoService(jWTUtil.getUsernameFromToken(authHeader.replace("Bearer ", "")));
+        if(info == null){
+            return Response.Error("用户不存在");
+        }
+        info.setPassword("****");
         return Response.Success(info);
+    }
+
+    @PutMapping("updateInfo")
+    public Response<UserDto> updateInfo (@RequestBody UserDto user){
+        loginService.upDateUserInfoService(user);
+        return Response.ok();
+    }
+
+    @DeleteMapping("deleteuser/{username}")
+    public Response<?> logoutUser(@Valid @PathVariable String username){
+        loginService.LogoutUser(username);
+        return Response.ok();
     }
 }

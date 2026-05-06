@@ -66,6 +66,7 @@ const formRef = ref<FormInstance>()
 const router = useRouter()
 const loginSubmit = async (data:LoginForm)=>{
   const {token} = await login(data)
+  if(!token) return 
   user.setToken(token)
   await router.push('/')
 }

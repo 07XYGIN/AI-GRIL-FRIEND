@@ -44,3 +44,26 @@ export const getUserInfo = ()=>{
         method:"GET",
     })
 }
+
+/**
+ * 更新用户信息 
+ * */
+
+export const updateUserInfo = (data:User)=>{
+    return request ({
+        url:"/user/updateInfo",
+        method:"PUT",
+        data
+    })
+}
+
+/**
+ * 用户注销
+ */
+
+export const logoutUser = (userId:string)=>{
+    return request ({
+        url:`/user/deleteuser/${userId}`,
+        method:"DELETE"
+    })
+}

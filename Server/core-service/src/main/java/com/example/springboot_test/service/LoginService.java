@@ -29,7 +29,6 @@ public class LoginService {
 
     public Response<String> Login(UserDto user) {
         UserDto userinfo = userMapper.findUser(user);
-
         if (userinfo == null) {
             return Response.Error("用户不存在");
         }
@@ -54,5 +53,13 @@ public class LoginService {
 
     public UserDto GetUserInfoService(String userName){
         return userMapper.findUserInfo(userName);
+    }
+
+    public void upDateUserInfoService(UserDto user){
+        userMapper.updateUser(user);
+    }
+
+    public void LogoutUser(String username) {
+        userMapper.deleteUser(username);
     }
 }
