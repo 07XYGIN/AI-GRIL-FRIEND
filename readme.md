@@ -117,12 +117,12 @@ Server/                       # 后端
 ## 🗺️ 里程碑
 
 ### ✅ 已完成
-- []
+- [x] 登录、注册、获取用户信息、修改用户信息、用户注销、用户退出登录
 
 ### 🔨 进行中（Phase 1）
-- [] 项目架构设计 & Monorepo 搭建
-- [] Spring Boot 用户注册 / 登录（JWT 鉴权）
-- [] Admin 后台登录页（Vue3）
+- [x] 项目架构设计 & Monorepo 搭建
+- [x] Spring Boot 用户注册 / 登录（JWT 鉴权）
+- [x] Admin 后台登录页（Vue3）
 - [ ] 会话管理 CRUD（Spring Boot）
 - [ ] 消息存储与查询
 - [ ] Admin 会话列表 & 消息详情页
